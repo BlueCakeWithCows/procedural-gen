@@ -1,4 +1,4 @@
-package TileEngine;
+package tileEngine;
 
 public enum TileType {
     WALL(true), NOTHING(false), FLOOR(false);

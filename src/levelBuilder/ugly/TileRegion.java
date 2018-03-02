@@ -2,6 +2,7 @@ package levelBuilder.ugly;
 
 import core.Util;
 import geometry.Point;
+import geometry.Rectangle;
 import tileEngine.TETile;
 
 import java.util.ArrayList;
@@ -297,5 +298,15 @@ public class TileRegion {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void fillRect(Rectangle r, TETile tile) {
+        int[] pos1 = new int[]{Math.min(r.getX1(), r.getX2()), Math.min(r.getY1(), r.getY2())};
+        int[] pos2 = new int[]{Math.max(r.getX1(), r.getX2()), Math.max(r.getY1(), r.getY2())};
+        for (int col = pos1[0]; col <= pos2[0]; col++) {
+            for (int row = pos1[1]; row <= pos2[1]; row++) {
+                this.setTile(col, row, tile);
+            }
+        }
     }
 }

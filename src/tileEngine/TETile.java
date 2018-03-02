@@ -22,6 +22,11 @@ public class TETile {
         this.naturalLightLevel = naturalLightLevel;
     }
 
+    public TETile(TileType type, int i, char c, Color textColor, Color backGroundColor,
+        String description) {
+        this(type, c, textColor, backGroundColor, description, null, i);
+    }
+
     public boolean isOpaque() {
         return type.isOpaque();
     }

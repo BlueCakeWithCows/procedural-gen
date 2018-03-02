@@ -2,7 +2,6 @@ package levelBuilder.ugly;
 
 import byog.Core.Game;
 import byog.Core.Util.Util;
-import byog.TileEngine.TETile;
 import byog.TileEngine.TileType;
 import byog.TileEngine.Tileset;
 import levelBuilder.Entity;
@@ -10,6 +9,7 @@ import levelBuilder.Player;
 import levelBuilder.Room;
 import levelBuilder.World;
 import levelBuilder.WorldGenerator;
+import tileEngine.TETile;
 
 import java.util.ArrayList;
 import java.util.List;

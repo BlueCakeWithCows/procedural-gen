@@ -1,5 +1,10 @@
 package core;
 
+import STD.STDInput;
+import STD.STDRenderer;
+import inputString.BlankRenderer;
+import inputString.StringInput;
+import renderer.Input;
 import renderer.Renderer;
 import renderer.View;
 import tileEngine.TETile;
@@ -13,29 +18,41 @@ public class Game {
     private List<InputHandler> handlerList;
     private Deque<Character> inputDeque;
     private GameState gameState;
+    private boolean gameOver;
+
     private static final int WIDTH = 32, HEIGHT = 32;
     //This is the main game instance // state managers thingy
     //core.Game currently has 3 windows // modes
 
 
+    public void playWithKeyboard() {
+        STDRenderer screen = new STDRenderer();
+        STDInput input = new STDInput();
+        play(input, screen);
+    }
+
     public TETile[][] playWithInputString(String arg) {
+        StringInput input = new StringInput(arg);
+        BlankRenderer screen = new BlankRenderer();
+        play(input, screen);
         return null;
     }
 
-    public void playWithKeyboard() {
+    public void play(Input input, Renderer renderer) {
         View view = new View(WIDTH, HEIGHT);
-        Renderer screen = new Renderer();
-        screen.initialize(WIDTH, HEIGHT);
+        renderer.initialize(WIDTH, HEIGHT);
         setGameState(new StartMenu(this));
-        while (gameState != null) {
-            gameState.update(this, 1);
-            screen.render(gameState.getDrawBatch(view));
+        while (!gameOver) {
+            inputDeque.add(input.getBlockingInput());
+            doNextInput();
+            renderer.render(gameState.getDrawBatch(view));
         }
+        gameState.close(this);
     }
 
 
     private void doNextInput() {
-        if (!inputDeque.isEmpty()) {
+        while (!inputDeque.isEmpty()) {
             doInput(inputDeque.poll());
         }
     }
@@ -66,7 +83,7 @@ public class Game {
         this.gameState.show(this);
     }
 
-    public void close() {
-        this.gameState.close(this);
+    public void setGameOver(boolean bool) {
+        this.gameOver = bool;
     }
 }

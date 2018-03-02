@@ -61,6 +61,11 @@ public class ImmutablePoint extends IPoint {
         return false;
     }
 
+    @Override
+    public Point[] getAdjacent() {
+        throw new RuntimeException("Not implemented");
+    }
+
     /**
      * The cache is initialized on first usage.
      * Currently set to not be used :)

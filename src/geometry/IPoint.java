@@ -54,4 +54,5 @@ public abstract class IPoint {
         return false;
     }
 
+    public abstract Point[] getAdjacent();
 }

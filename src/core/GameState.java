@@ -3,7 +3,7 @@ package core;
 import renderer.DrawBatchCommand;
 import renderer.View;
 
-public interface GameState {
+public interface GameState extends InputHandler {
     String getLabel();
 
     void update(Game game, double dt);
@@ -13,4 +13,7 @@ public interface GameState {
     void show(Game game);
 
     DrawBatchCommand getDrawBatch(View view);
+
+    @Override
+    void doInput(char c);
 }

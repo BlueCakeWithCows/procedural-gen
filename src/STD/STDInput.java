@@ -5,6 +5,9 @@ import renderer.Input;
 
 public class STDInput implements Input {
 
+    private final Object lock = new Object();
+
+
     @Override
     public char getInput() {
         return StdDraw.nextKeyTyped();
@@ -20,7 +23,7 @@ public class STDInput implements Input {
 
     private void delay(int ms) {
         try {
-            wait(ms);
+            Thread.sleep(ms);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

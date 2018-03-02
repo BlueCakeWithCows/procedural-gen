@@ -9,6 +9,8 @@ import renderer.Renderer;
 import renderer.View;
 import tileEngine.TETile;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
@@ -40,8 +42,11 @@ public class Game {
 
     public void play(Input input, Renderer renderer) {
         View view = new View(WIDTH, HEIGHT);
+        inputDeque = new ArrayDeque<>();
+        handlerList = new ArrayList<>();
         renderer.initialize(WIDTH, HEIGHT);
         setGameState(new StartMenu(this));
+        renderer.render(gameState.getDrawBatch(view));
         while (!gameOver) {
             inputDeque.add(input.getBlockingInput());
             doNextInput();

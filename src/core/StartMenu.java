@@ -3,7 +3,6 @@ package core;
 import renderer.DrawBatchCommand;
 import renderer.DrawCommand;
 import renderer.DrawTextCommand;
-import renderer.Drawable;
 import renderer.Fonts;
 import renderer.View;
 
@@ -30,12 +29,12 @@ public class StartMenu implements GameState, InputHandler {
 
     @Override
     public void close(Game game) {
-
+        game.removeInputHandler(this);
     }
 
     @Override
     public void show(Game game) {
-
+        game.registerInputHandler(this);
     }
 
     @Override
@@ -58,10 +57,9 @@ public class StartMenu implements GameState, InputHandler {
     public void doInput(char c) {
         switch (Character.toLowerCase(c)) {
             case 'l':
-
                 break;
             case 'n':
-                game.setGameState(new RandomSeedMenu());
+                game.setGameState(new RandomSeedMenu(game));
                 break;
             default:
                 break;

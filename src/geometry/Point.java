@@ -20,6 +20,11 @@ public class Point extends IPoint {
         this(point[0], point[1]);
     }
 
+    public Point setLocation(int x, int y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
 
     public static Point newAdd(Point point, int x, int y) {
         return new Point(point.x + x, point.y + y);
@@ -33,13 +38,20 @@ public class Point extends IPoint {
     public void add(int[] point) { add(point[0], point[1]); }
 
     public void add(IPoint IPoint) { add(IPoint.getX(), IPoint.getY()); }
-    
+
     public static Point[] getAdjacent(Point pos) {
-        return new Point[]{newAdd(pos, 0, 1), newAdd(pos, -1, 0), newAdd(pos, 0, -1), newAdd(pos, 1, 0)};
+        return new Point[]{
+            newAdd(pos, 0, 1), newAdd(pos, -1, 0), newAdd(pos, 0, -1), newAdd(pos, 1, 0)
+        };
     }
 
     public int[] toInt() {
         return new int[]{x, y};
+    }
+
+    @Override
+    public Point[] getAdjacent() {
+        return getAdjacent(this);
     }
 
     public int getX() {

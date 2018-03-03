@@ -55,6 +55,6 @@ public class Player extends Entity implements LightSource {
 
     @Override
     public int getLightValue() {
-        return 14;
+        return 12;
     }
 }

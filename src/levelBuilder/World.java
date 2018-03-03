@@ -226,9 +226,9 @@ public class World {
                 for (Point pos : Point.getAdjacent(node)) {
                     if (pos.getX() >= 0 && pos.getX() < ray.length && pos.getY() >= 0
                             && pos.getY() < ray[0].length) {
-                        if (ray[pos.getX()][pos.getY()] + 1 < ray[pos.getX()][pos.getY()]
-                                && 1 < ray[pos.getX()][pos.getY()]) {
-                            ray[pos.getX()][pos.getY()] = ray[pos.getX()][pos.getY()] - 1;
+                        if (ray[pos.getX()][pos.getY()] + 1 < ray[node.getX()][node.getY()]
+                                && 1 < ray[node.getX()][node.getY()]) {
+                            ray[pos.getX()][pos.getY()] = ray[node.getX()][node.getY()] - 1;
                             if (!getTile(pos.getX(), pos.getY()).getType().isOpaque()) {
                                 newNodes.add(pos);
                             }
@@ -238,7 +238,6 @@ public class World {
             }
             points = newNodes;
         }
-        MyLogger.log(ray);
         return ray;
     }
 

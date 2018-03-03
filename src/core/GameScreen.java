@@ -27,6 +27,13 @@ public class GameScreen implements GameState {
     }
 
     @Override
+    public boolean graphicsReady() {
+        return ready;
+    }
+
+    volatile boolean ready = false;
+
+    @Override
     public String getLabel() {
         return "Game Screen";
     }
@@ -48,6 +55,7 @@ public class GameScreen implements GameState {
         camera = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
         camera.center(player.getPosition());
         camera.bound(0, 0, world.getRegion().getWidth(), world.getRegion().getHeight());
+        ready = true;
     }
 
 
@@ -77,8 +85,8 @@ public class GameScreen implements GameState {
 
             for (Entity e : world.getEntities()) {
                 TETile tile = e.getTile();
-                DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(), e.getX()-camera.getX(),
-                    e.getY()-camera.getY(), 1, 1, 255, 255, 10);
+                DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(),
+                    e.getX() - camera.getX(), e.getY() - camera.getY(), 1, 1, 255, 255, 10);
                 commands.add(cmd);
             }
             cmd = new DrawBatchCommand(commands);

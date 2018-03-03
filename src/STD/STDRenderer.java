@@ -55,6 +55,8 @@ public class STDRenderer implements Renderer {
         fontMap.put(Fonts.ARIAL, new Font("monaco", Font.BOLD, 30));
         fontMap.put(CHAR, new Font("monaco", Font.BOLD, 14));
         texturesMap = new HashMap<>();
+        texturesMap.put(Textures.BASIC_WALL, "res/basic_wall.png");
+        texturesMap.put(Textures.BASIC_WALL2, "res/basic_wall_front.png");
         for (Textures tex : texturesMap.keySet()) {
             try {
                 StdDraw.picture(0, 0, texturesMap.get(tex));

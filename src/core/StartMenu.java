@@ -18,6 +18,11 @@ public class StartMenu implements GameState, InputHandler {
     }
 
     @Override
+    public boolean graphicsReady() {
+        return true;
+    }
+
+    @Override
     public String getLabel() {
         return "Start Screen";
     }

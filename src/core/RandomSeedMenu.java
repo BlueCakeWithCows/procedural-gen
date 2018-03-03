@@ -21,6 +21,11 @@ public class RandomSeedMenu implements GameState {
     }
 
     @Override
+    public boolean graphicsReady() {
+        return true;
+    }
+
+    @Override
     public String getLabel() {
         return "Random Seed Menu";
     }

@@ -17,6 +17,7 @@ import java.util.List;
 public class Game {
 
 
+    private static final double MAX_FPS = 60;
     private List<InputHandler> handlerList;
     private Deque<Character> inputDeque;
     private GameState gameState;
@@ -43,21 +44,56 @@ public class Game {
     }
 
     public void play(Input input, Renderer renderer) {
-        View view = new View(WIDTH, HEIGHT);
         inputDeque = new ArrayDeque<>();
         handlerList = new ArrayList<>();
-        renderer.initialize(WIDTH, HEIGHT+headSpace);
         setGameState(new StartMenu(this));
-        renderer.render(gameState.getDrawBatch(view));
+        (new RenderThread(renderer)).start();
         while (!gameOver) {
             inputDeque.add(input.getBlockingInput());
             doNextInput();
-            //long start =System.nanoTime();
-            renderer.render(gameState.getDrawBatch(view));
-            //System.out.println( 1d/((double)(System.nanoTime()-start)/1000000000.0));
         }
         gameState.close(this);
     }
+
+    private class RenderThread extends Thread {
+        Renderer renderer;
+
+        public RenderThread(Renderer renderer) {
+            this.renderer = renderer;
+        }
+
+        @Override
+        public void run() {
+            renderer.initialize(WIDTH, HEIGHT + headSpace);
+            long lastTime = System.currentTimeMillis();
+            long currentTime = System.currentTimeMillis();
+            long dt = 0;
+            long msPerFrame = (long) (1000.0 * 1.0 / MAX_FPS);
+            View view = new View(WIDTH, HEIGHT);
+
+            while (renderer != null) {
+                //long start = System.nanoTime();
+                currentTime = System.currentTimeMillis();
+                dt = currentTime - lastTime;
+                if (dt < msPerFrame) {
+                    wait((int) (msPerFrame - dt));
+                }
+                if (gameState.graphicsReady()) { renderer.render(gameState.getDrawBatch(view)); }
+                //System.out.println(1d / ((double) (System.nanoTime() - start) / 1000000000.0));
+
+            }
+        }
+
+        private void wait(int delay) {
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    ;
 
 
     private void doNextInput() {

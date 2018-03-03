@@ -93,9 +93,9 @@ public class Game {
                 //long start = System.nanoTime();
                 currentTime = System.currentTimeMillis();
                 dt = currentTime - lastTime;
-                if (dt < msPerFrame) {
-                    wait((int) (msPerFrame - dt));
-                }
+//                if (dt < msPerFrame) {
+//                    wait((int) (msPerFrame - dt));
+//                }
                 if (gameState.graphicsReady()) { renderer.render(gameState.getDrawBatch(view)); }
                 //System.out.println(1d / ((double) (System.nanoTime() - start) / 1000000000.0));
 

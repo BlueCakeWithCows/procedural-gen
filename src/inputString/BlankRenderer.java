@@ -4,8 +4,9 @@ import renderer.DrawBatchCommand;
 import renderer.Renderer;
 
 public class BlankRenderer implements Renderer {
+
     @Override
-    public void initialize(int w, int h) {
+    public void initialize(int w, int h, double scale) {
 
     }
 

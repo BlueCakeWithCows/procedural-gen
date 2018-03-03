@@ -24,8 +24,8 @@ public class Game {
     private boolean gameOver;
     private int headSpace = 5;
 
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 30;
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 15;
     //This is the main game instance // state managers thingy
     //core.Game currently has 3 windows // modes
 
@@ -65,7 +65,7 @@ public class Game {
 
         @Override
         public void run() {
-            renderer.initialize(WIDTH, HEIGHT + headSpace);
+            renderer.initialize(WIDTH, HEIGHT + headSpace, 1);
             long lastTime = System.currentTimeMillis();
             long currentTime = System.currentTimeMillis();
             long dt = 0;

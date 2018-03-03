@@ -1,9 +1,13 @@
 package levelBuilder;
 
+import geometry.IPoint;
 import geometry.Point;
 import tileEngine.TETile;
 import tileEngine.TileType;
 import tileEngine.Tileset;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO Player class
@@ -17,6 +21,11 @@ public class Player extends Entity implements LightSource {
     public Player() {
         this.setTile(Tileset.PLAYER);
 
+    }
+
+    @Override
+    public void update(World world, double dt) {
+        updateVision(world);
     }
 
     public boolean[] getPossibleMoves(World world) {
@@ -37,6 +46,8 @@ public class Player extends Entity implements LightSource {
         throw new RuntimeException("Calling getCopy on Player object. Why?");
     }
 
+    private Set<IPoint> lastSeen = new HashSet<>();
+
     public boolean tryMove(char c, World world) {
         Point newPosition = new Point(this.getPosition());
         if (c == 'w') {newPosition.add(0, 1);}
@@ -50,7 +61,20 @@ public class Player extends Entity implements LightSource {
                 return true;
             }
         }
+
         return false;
+    }
+
+    private void updateVision(World world) {
+        Set<IPoint> LOS = this.getLOS(world);
+        lastSeen.removeAll(LOS);
+        for (IPoint p : lastSeen) {
+            world.setVision(p.getX(), p.getY(), false);
+        }
+        for (IPoint p : LOS) {
+            world.setVision(p.getX(), p.getY(), true);
+        }
+        this.lastSeen = LOS;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package levelBuilder;
 
-import core.MyLogger;
 import geometry.Point;
 import tileEngine.TETile;
 
@@ -31,6 +30,7 @@ public class World {
             }
         }
         this.recalculateStaticLightMap();
+        this.recalculateDynamicLightMap();
         this.calculateTotalLightLevel();
     }
 
@@ -44,7 +44,7 @@ public class World {
         for (Entity e : getEntities()) {
             Point pos = e.getPosition();
             if (e instanceof LightSource) {
-                newMap[pos.getX()][pos.getY()] = e.getLightValue();
+                newMap[pos.getX()][pos.getY()] = ((LightSource) e).getLightValue();
                 points.add(pos);
             }
         }
@@ -62,7 +62,7 @@ public class World {
         this.fogLightMap = (new byte[getRegion().getWidth()][getRegion().getHeight()]);
         for (int row = 0; row < getRegion().getHeight(); row++) {
             for (int col = 0; col < getRegion().getWidth(); col++) {
-                getFogLightMap()[col][row] = 2;
+                getFogLightMap()[col][row] = 0;
             }
         }
         this.calculateTotalLightLevel();
@@ -87,7 +87,7 @@ public class World {
     public int getVisibleLightLevel(int x, int y) {
         switch (getFogLightMap()[x][y]) {
             case 2:
-                return getLightLevel(x, y);
+                return Math.max(1, getLightLevel(x, y));
             case 1:
                 return 1;
             default:
@@ -102,8 +102,12 @@ public class World {
         return result;
     }
 
-    public void update() {
-
+    public void update(double dt) {
+        for (Entity e : entities) {
+            e.update(this, dt);
+        }
+        this.recalculateDynamicLightMap();
+        this.calculateTotalLightLevel();
     }
 
     public void draw() {
@@ -124,6 +128,9 @@ public class World {
      * @param canSee
      */
     public void setVision(int x, int y, boolean canSee) {
+        if (!region.isValid(x, y)) {
+            return;
+        }
         if (canSee) {
             getFogLightMap()[x][y] = 2;
         } else {

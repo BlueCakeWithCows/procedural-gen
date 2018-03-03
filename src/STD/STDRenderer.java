@@ -43,10 +43,10 @@ public class STDRenderer implements Renderer {
     }
 
     @Override
-    public void initialize(int w, int h) {
+    public void initialize(int w, int h, double scale) {
         this.width = w;
         this.height = h;
-        StdDraw.setCanvasSize(width * TILE_SIZE, height * TILE_SIZE);
+        StdDraw.setCanvasSize((int) (width * TILE_SIZE * scale), (int) (height * TILE_SIZE * scale));
         StdDraw.setXscale(0, width);
         StdDraw.setYscale(0, height);
         StdDraw.clear(new Color(0, 0, 0));

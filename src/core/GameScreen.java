@@ -40,9 +40,7 @@ public class GameScreen implements GameState {
 
     @Override
     public void update(Game game, double dt) {
-        world.update();
-        world.recalculateDynamicLightMap();
-        world.calculateTotalLightLevel();
+        world.update(dt);
     }
 
     @Override
@@ -57,6 +55,7 @@ public class GameScreen implements GameState {
         camera = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
         camera.center(player.getPosition());
         camera.bound(0, 0, world.getRegion().getWidth(), world.getRegion().getHeight());
+        world.update(0);
         ready = true;
     }
 

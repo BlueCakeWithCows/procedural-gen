@@ -60,7 +60,7 @@ public class TileRegion {
         return null;
     }
 
-    private boolean isValid(int x, int y) {
+    public boolean isValid(int x, int y) {
         if ((x < 0 || x >= getWidth() || y < 0 || y >= getHeight())) {
             return false;
         }

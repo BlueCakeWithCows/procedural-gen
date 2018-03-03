@@ -7,10 +7,13 @@ import levelBuilder.Player;
 import levelBuilder.World;
 import renderer.DrawBatchCommand;
 import renderer.DrawCommand;
+import renderer.DrawTextCommand;
 import renderer.DrawTextureCommand;
+import renderer.Fonts;
 import renderer.View;
 import tileEngine.TETile;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +23,10 @@ public class GameScreen implements GameState {
     private World world;
     private Player player;
     private Rectangle camera;
+    private Game game;
 
-    public GameScreen(Player player, Dungeon dungeon) {
+    public GameScreen(Game game, Player player, Dungeon dungeon) {
+        this.game = game;
         this.player = player;
         this.dungeon = dungeon;
     }
@@ -63,8 +68,8 @@ public class GameScreen implements GameState {
     @Override
     public void doInput(char c) {
         player.tryMove(c, world);
-        camera.center(player.getPosition());
-        camera.bound(0, 0, world.getRegion().getWidth(), world.getRegion().getHeight());
+        camera.boundCenter(player.getPosition(), 0, 0, world.getRegion().getWidth(),
+            world.getRegion().getHeight());
         cached = false;
     }
 
@@ -76,7 +81,7 @@ public class GameScreen implements GameState {
         if (!cached) {
             List<DrawCommand> commands = new ArrayList<>();
             for (int col = camera.getX(); col < camera.getX2(); col++) {
-                for (int row = camera.getY(); row < camera.getY2(); row++) {
+                for (int row = camera.getY(); row < camera.getY2() - 1; row++) {
                     TETile tile = world.getRegion().getTile(col, row);
                     DrawTextureCommand cmd =
                         new DrawTextureCommand(tile.getTexture(), col - camera.getX(),
@@ -86,6 +91,7 @@ public class GameScreen implements GameState {
                 }
             }
 
+
             for (Entity e : world.getEntities()) {
                 TETile tile = e.getTile();
                 DrawTextureCommand cmd =
@@ -94,9 +100,37 @@ public class GameScreen implements GameState {
                         world.getVisibleLightLevel(e.getX(), e.getY()), 10);
                 commands.add(cmd);
             }
+
+            Point2D point = this.game.getInput().pollMouse();
+            commands.add(new DrawTextCommand(Fonts.ARIAL,
+                getTileType((int) point.getX(), (int) point.getY()), 4, game.TOTAL_HEIGHT - 1.2));
+            commands.add(new DrawTextCommand(Fonts.ARIAL,
+                getEntityType((int) point.getX(), (int) point.getY()), 4, game.TOTAL_HEIGHT - 2.8));
+
             cmd = new DrawBatchCommand(commands);
-            cached = true;
+            cached = false;
+
+
         }
         return cmd;
     }
+
+    private String getTileType(int x, int y) {
+        TETile target = world.getTile(x + camera.getX(), y + camera.getY());
+        if (target == null
+                || world.getVisibleLightLevel(x + camera.getX(), y + camera.getY()) < 1) {
+            return "";
+        }
+        return target.getDescription();
+    }
+
+    private String getEntityType(int x, int y) {
+        Entity targetEntity = world.getEntityAt(x + camera.getX(), y + camera.getY());
+        if (targetEntity == null || targetEntity.getTile() == null
+                || world.getVisibleLightLevel(x + camera.getX(), y + camera.getY()) < 1) {
+            return "";
+        }
+        return targetEntity.getTile().getDescription();
+    }
+
 }

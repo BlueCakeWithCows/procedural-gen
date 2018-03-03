@@ -46,7 +46,8 @@ public class STDRenderer implements Renderer {
     public void initialize(int w, int h, double scale) {
         this.width = w;
         this.height = h;
-        StdDraw.setCanvasSize((int) (width * TILE_SIZE * scale), (int) (height * TILE_SIZE * scale));
+        StdDraw
+            .setCanvasSize((int) (width * TILE_SIZE * scale), (int) (height * TILE_SIZE * scale));
         StdDraw.setXscale(0, width);
         StdDraw.setYscale(0, height);
         StdDraw.clear(new Color(0, 0, 0));
@@ -79,13 +80,6 @@ public class STDRenderer implements Renderer {
 
         Map<Class, List<DrawCommand>> collections =
             commands.stream().collect(groupingBy(x -> x.getClass()));
-        for (DrawTextCommand cmd : (List<DrawTextCommand>) (List<?>) collections.getOrDefault(
-            DrawTextCommand.class, new ArrayList<>())) {
-            StdDraw.setPenColor(Color.WHITE);
-            StdDraw.setFont(getFont(cmd.type));
-            StdDraw.text(cmd.x, cmd.y, cmd.text);
-
-        }
 
 
         List<DrawTextureCommand> textureCommands = (List<DrawTextureCommand>) (List<?>) collections
@@ -106,6 +100,15 @@ public class STDRenderer implements Renderer {
             StdDraw.setPenColor(DARKNESS[cmd.brightness]);
             StdDraw.filledSquare(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2, 0.5);
         }
+
+        for (DrawTextCommand cmd : (List<DrawTextCommand>) (List<?>) collections.getOrDefault(
+            DrawTextCommand.class, new ArrayList<>())) {
+            StdDraw.setPenColor(Color.WHITE);
+            StdDraw.setFont(getFont(cmd.type));
+            StdDraw.text(cmd.x, cmd.y, cmd.text);
+
+        }
+
         StdDraw.show();
     }
 

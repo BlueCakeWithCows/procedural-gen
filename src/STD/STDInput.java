@@ -3,6 +3,8 @@ package STD;
 import edu.princeton.cs.introcs.StdDraw;
 import renderer.Input;
 
+import java.awt.geom.Point2D;
+
 public class STDInput implements Input {
 
     private final Object lock = new Object();
@@ -19,6 +21,12 @@ public class STDInput implements Input {
             delay(2);
         }
         return StdDraw.nextKeyTyped();
+    }
+
+    @Override
+    public Point2D pollMouse() {
+        Point2D point = new Point2D.Double(StdDraw.mouseX(), StdDraw.mouseY());
+        return point;
     }
 
     private void delay(int ms) {

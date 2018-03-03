@@ -67,4 +67,17 @@ public class Rectangle {
 
 
     }
+
+    public void boundCenter(Point position, int minX, int minY, int maxX, int maxY) {
+        int newX = position.getX() - width / 2;
+        int newY = position.getY() - height / 2;
+
+        if (newX < minX) {newX = minX; }
+        if (newY < minY) { newY = minY; }
+        if (newX + width >= maxX) { newX = maxX - width; }
+        if (newY + height >= maxY) { newY = maxY - height; }
+        this.y1 = newY;
+        this.x1 = newX;
+
+    }
 }

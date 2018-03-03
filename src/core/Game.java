@@ -22,22 +22,24 @@ public class Game {
     private Deque<Character> inputDeque;
     private GameState gameState;
     private boolean gameOver;
-    private int headSpace = 5;
+    private Input input;
 
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    public static final int TOTAL_WIDTH = 60;
+    public static final int TOTAL_HEIGHT = 45;
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 40;
     //This is the main game instance // state managers thingy
     //core.Game currently has 3 windows // modes
 
 
     public void playWithKeyboard() {
         STDRenderer screen = new STDRenderer();
-        STDInput input = new STDInput();
+        this.input = new STDInput();
         play(input, screen);
     }
 
     public TETile[][] playWithInputString(String arg) {
-        StringInput input = new StringInput(arg);
+        this.input = new StringInput(arg);
         BlankRenderer screen = new BlankRenderer();
         play(input, screen);
         return null;
@@ -56,6 +58,10 @@ public class Game {
         gameState.close(this);
     }
 
+    public Input getInput() {
+        return input;
+    }
+
     private class RenderThread extends Thread {
         Renderer renderer;
 
@@ -65,7 +71,7 @@ public class Game {
 
         @Override
         public void run() {
-            renderer.initialize(WIDTH, HEIGHT + headSpace, 1);
+            renderer.initialize(TOTAL_WIDTH, TOTAL_HEIGHT, 1);
             long lastTime = System.currentTimeMillis();
             long currentTime = System.currentTimeMillis();
             long dt = 0;

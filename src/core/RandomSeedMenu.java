@@ -97,7 +97,8 @@ public class RandomSeedMenu implements GameState {
                 lSeed = Long.parseUnsignedLong(seed.toString());
             }
             Player player = new Player();
-            game.setGameState(new GameScreen(player, new Dungeon(lSeed, GeneratorSet.defaultSet)));
+            game.setGameState(
+                new GameScreen(game, player, new Dungeon(lSeed, GeneratorSet.defaultSet)));
             return;
         }
     }

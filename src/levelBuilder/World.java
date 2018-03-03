@@ -1,8 +1,10 @@
 package levelBuilder;
 
+import core.MyLogger;
 import geometry.Point;
 import tileEngine.TETile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -28,7 +30,25 @@ public class World {
                 getStaticLightMap()[col][row] = 7;
             }
         }
+        this.recalculateStaticLightMap();
         this.calculateTotalLightLevel();
+    }
+
+    public void recalculateStaticLightMap() {
+        staticLightMap = region.getLightMap();
+    }
+
+    public void recalculateDynamicLightMap() {
+        int[][] newMap = new int[region.getWidth()][region.getHeight()];
+        List<Point> points = new ArrayList<>();
+        for (Entity e : getEntities()) {
+            Point pos = e.getPosition();
+            if (e instanceof LightSource) {
+                newMap[pos.getX()][pos.getY()] = e.getLightValue();
+                points.add(pos);
+            }
+        }
+        dynamicLightMap = getLightMap(newMap, points);
     }
 
 
@@ -60,8 +80,7 @@ public class World {
     public void calculateTotalLightLevel() {
         int[][] result = new int[getRegion().getWidth()][getRegion().getHeight()];
         IntStream.range(0, result.length).forEach(x -> Arrays.setAll(result[x],
-            y -> Math.min(11, getStaticLightMap()[x][y] + getDynamicLightMap()[x][y])
-        ));
+            y -> Math.min(11, getStaticLightMap()[x][y] + getDynamicLightMap()[x][y])));
         this.setTotalLightLevel(result);
     }
 
@@ -191,5 +210,36 @@ public class World {
         this.tiles = tiles;
     }
 
+    public int getWidth() {
+        return region.getWidth();
+    }
+
+    public int getHeight() {
+        return region.getHeight();
+    }
+
+    private int[][] getLightMap(int[][] ray, List<Point> startingPoints) {
+        List<Point> points = new ArrayList(startingPoints);
+        while (!points.isEmpty()) {
+            List<Point> newNodes = new ArrayList<>();
+            for (Point node : points) {
+                for (Point pos : Point.getAdjacent(node)) {
+                    if (pos.getX() >= 0 && pos.getX() < ray.length && pos.getY() >= 0
+                            && pos.getY() < ray[0].length) {
+                        if (ray[pos.getX()][pos.getY()] + 1 < ray[pos.getX()][pos.getY()]
+                                && 1 < ray[pos.getX()][pos.getY()]) {
+                            ray[pos.getX()][pos.getY()] = ray[pos.getX()][pos.getY()] - 1;
+                            if (!getTile(pos.getX(), pos.getY()).getType().isOpaque()) {
+                                newNodes.add(pos);
+                            }
+                        }
+                    }
+                }
+            }
+            points = newNodes;
+        }
+        MyLogger.log(ray);
+        return ray;
+    }
 
 }

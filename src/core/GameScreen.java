@@ -40,7 +40,9 @@ public class GameScreen implements GameState {
 
     @Override
     public void update(Game game, double dt) {
-
+        world.update();
+        world.recalculateDynamicLightMap();
+        world.calculateTotalLightLevel();
     }
 
     @Override
@@ -77,16 +79,20 @@ public class GameScreen implements GameState {
             for (int col = camera.getX(); col < camera.getX2(); col++) {
                 for (int row = camera.getY(); row < camera.getY2(); row++) {
                     TETile tile = world.getRegion().getTile(col, row);
-                    DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(),
-                        col - camera.getX(), row - camera.getY(), 1, 1, 255, 255, 1);
+                    DrawTextureCommand cmd =
+                        new DrawTextureCommand(tile.getTexture(), col - camera.getX(),
+                            row - camera.getY(), 1, 1, 255, world.getVisibleLightLevel(col, row),
+                            1);
                     commands.add(cmd);
                 }
             }
 
             for (Entity e : world.getEntities()) {
                 TETile tile = e.getTile();
-                DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(),
-                    e.getX() - camera.getX(), e.getY() - camera.getY(), 1, 1, 255, 255, 10);
+                DrawTextureCommand cmd =
+                    new DrawTextureCommand(tile.getTexture(), e.getX() - camera.getX(),
+                        e.getY() - camera.getY(), 1, 1, 255,
+                        world.getVisibleLightLevel(e.getX(), e.getY()), 10);
                 commands.add(cmd);
             }
             cmd = new DrawBatchCommand(commands);

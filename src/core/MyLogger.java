@@ -25,6 +25,12 @@ public class MyLogger {
         }
     }
 
+    public static void log(int[][] map) {
+        for (int[] m : map) {
+            System.out.println(Arrays.toString(m));
+        }
+    }
+
     public static void log(int[] ray) {
         log(Arrays.toString(ray));
     }

@@ -8,7 +8,7 @@ import tileEngine.Tileset;
 /**
  * TODO Player class
  */
-public class Player extends Entity {
+public class Player extends Entity implements LightSource {
 
     public Player(Point position) {
         super(position);
@@ -23,8 +23,8 @@ public class Player extends Entity {
         boolean[] wasdMoves = new boolean[4];
         Point[] possibleMoves = getPosition().getAdjacent();
         for (int i = 0; i < 4; i++) {
-            TETile potentialTarget = world
-                                         .getTile(possibleMoves[i].getX(), possibleMoves[i].getY());
+            TETile potentialTarget =
+                world.getTile(possibleMoves[i].getX(), possibleMoves[i].getY());
             if (potentialTarget.getType().equals(TileType.FLOOR)) {
                 wasdMoves[i] = true;
             }
@@ -51,5 +51,10 @@ public class Player extends Entity {
             }
         }
         return false;
+    }
+
+    @Override
+    public int getLightValue() {
+        return 14;
     }
 }

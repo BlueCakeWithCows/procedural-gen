@@ -31,6 +31,12 @@ public class STDRenderer implements Renderer {
     private int height;
     private static final int TILE_SIZE = 16;
     private TextureSorter sorter;
+    private static final Color[] DARKNESS = new Color[]{
+        new Color(0, 0, 0, 255), new Color(0, 0, 0, 200), new Color(0, 0, 0, 180),
+        new Color(0, 0, 0, 160), new Color(0, 0, 0, 140), new Color(0, 0, 0, 120),
+        new Color(0, 0, 0, 100), new Color(0, 0, 0, 80), new Color(0, 0, 0, 60),
+        new Color(0, 0, 0, 40), new Color(0, 0, 0, 20), new Color(0, 0, 0, 0)
+    };
 
     public STDRenderer() {
 
@@ -71,13 +77,14 @@ public class STDRenderer implements Renderer {
         StdDraw.clear(new Color(0, 0, 0));
         List<DrawCommand> commands = commandPack.unpack();
 
-        Map<Class, List<DrawCommand>> collections = commands.stream()
-                                                        .collect(groupingBy(x -> x.getClass()));
+        Map<Class, List<DrawCommand>> collections =
+            commands.stream().collect(groupingBy(x -> x.getClass()));
         for (DrawTextCommand cmd : (List<DrawTextCommand>) (List<?>) collections.getOrDefault(
             DrawTextCommand.class, new ArrayList<>())) {
             StdDraw.setPenColor(Color.WHITE);
             StdDraw.setFont(getFont(cmd.type));
             StdDraw.text(cmd.x, cmd.y, cmd.text);
+
         }
 
 
@@ -85,7 +92,7 @@ public class STDRenderer implements Renderer {
                                                                                             .getOrDefault(
                                                                                                 DrawTextureCommand.class,
                                                                                                 new ArrayList<>());
-        Collections.sort(textureCommands,sorter);
+        Collections.sort(textureCommands, sorter);
         StdDraw.setFont(fontMap.get(CHAR));
         for (DrawTextureCommand cmd : textureCommands) {
             if (texturesMap.containsKey(cmd.texture)) {
@@ -96,6 +103,8 @@ public class STDRenderer implements Renderer {
                 StdDraw.text(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2,
                     String.valueOf(cmd.texture.getChar()));
             }
+            StdDraw.setPenColor(DARKNESS[cmd.brightness]);
+            StdDraw.filledSquare(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2, 0.5);
         }
         StdDraw.show();
     }

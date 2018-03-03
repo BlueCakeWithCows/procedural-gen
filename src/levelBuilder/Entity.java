@@ -6,7 +6,7 @@ import tileEngine.TETile;
 /**
  * TODO Entity Class
  */
-public abstract class Entity {
+public abstract class Entity implements LightSource{
     private Point position;
     private TETile tile = null; //Tileset.FLOWER;
 
@@ -52,6 +52,4 @@ public abstract class Entity {
     public void setPosition(Point newPosition) {
         this.position.setLocation(newPosition.getX(), newPosition.getY());
     }
-
-    ;
 }

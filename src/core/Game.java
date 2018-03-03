@@ -51,6 +51,7 @@ public class Game {
         while (!gameOver) {
             inputDeque.add(input.getBlockingInput());
             doNextInput();
+            gameState.update(this, 0);
         }
         gameState.close(this);
     }

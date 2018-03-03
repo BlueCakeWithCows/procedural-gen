@@ -17,12 +17,12 @@ import renderer.Textures;
  */
 
 public class Tileset {
-    public static final TETile WALL = new TETile(TileType.WALL, Textures.BASIC_WALL, "wall", 10);
-    public static final TETile WALL2 = new TETile(TileType.WALL, Textures.BASIC_WALL2, "wall", 10);
+    public static final TETile WALL = new TETile(TileType.WALL, Textures.BASIC_WALL, "wall", 5);
+    public static final TETile WALL2 = new TETile(TileType.WALL, Textures.BASIC_WALL2, "wall", 2);
 
     public static final TETile NOTHING = new TETile(TileType.NOTHING, Textures.NOTHING, "", 0);
-    public static final TETile FLOOR = new TETile(TileType.FLOOR, Textures.FLOOR, "floor", 4);
-    public static final TETile PLAYER = new TETile(TileType.NOTHING, Textures.PLAYER, "player", 10);
+    public static final TETile FLOOR = new TETile(TileType.FLOOR, Textures.FLOOR, "floor", 0);
+    public static final TETile PLAYER = new TETile(TileType.NOTHING, Textures.PLAYER, "player", 0);
 
 }
 

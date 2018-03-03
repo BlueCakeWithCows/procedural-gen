@@ -44,8 +44,7 @@ public class Util {
         for (int col = x1; col < x2; col++) {
             for (int row = y1; row < y2; row++) {
                 if (RandomUtils.chance(random, nodeChance) && !isNear(col, row, list,
-                    nodeMinSpacing
-                )) {
+                    nodeMinSpacing)) {
                     list.add(new Point(col, row));
                 }
             }
@@ -62,7 +61,7 @@ public class Util {
             int x = pos.getX() - width / 2;
             int y = pos.getY() - height / 2;
             Rectangle rect = new Rectangle(x, y, width, height);
-            if (x < x1 || y < y1 || x + width >= x2 || y + width >= y2) { continue; }
+            if (x < x1 || y < y1 || x + width >= x2 || y + height >= y2) { continue; }
             rects.add(rect);
         }
         return rects;

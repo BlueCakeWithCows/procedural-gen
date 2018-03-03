@@ -1,5 +1,6 @@
 package core;
 
+import geometry.Rectangle;
 import levelBuilder.Dungeon;
 import levelBuilder.Entity;
 import levelBuilder.Player;
@@ -18,6 +19,7 @@ public class GameScreen implements GameState {
     private Dungeon dungeon;
     private World world;
     private Player player;
+    private Rectangle camera;
 
     public GameScreen(Player player, Dungeon dungeon) {
         this.player = player;
@@ -43,12 +45,18 @@ public class GameScreen implements GameState {
     public void show(Game game) {
         game.registerInputHandler(this);
         world = dungeon.getFloor(player);
+        camera = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
+        camera.center(player.getPosition());
+        camera.bound(0, 0, world.getRegion().getWidth(), world.getRegion().getHeight());
     }
 
 
     @Override
     public void doInput(char c) {
-
+        player.tryMove(c, world);
+        camera.center(player.getPosition());
+        camera.bound(0, 0, world.getRegion().getWidth(), world.getRegion().getHeight());
+        cached = false;
     }
 
     private boolean cached = false;
@@ -58,21 +66,19 @@ public class GameScreen implements GameState {
     public DrawBatchCommand getDrawBatch(View view) {
         if (!cached) {
             List<DrawCommand> commands = new ArrayList<>();
-            for (int col = 0; col < world.getRegion().getWidth(); col++) {
-                for (int row = 0; row < world.getRegion().getHeight(); row++) {
+            for (int col = camera.getX(); col < camera.getX2(); col++) {
+                for (int row = camera.getY(); row < camera.getY2(); row++) {
                     TETile tile = world.getRegion().getTile(col, row);
-                    DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(), col, row, 1,
-                        1, 255, 255
-                    );
+                    DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(),
+                        col - camera.getX(), row - camera.getY(), 1, 1, 255, 255, 1);
                     commands.add(cmd);
                 }
             }
 
             for (Entity e : world.getEntities()) {
                 TETile tile = e.getTile();
-                DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(), e.getX(),
-                    e.getY(), 1, 1, 255, 255
-                );
+                DrawTextureCommand cmd = new DrawTextureCommand(tile.getTexture(), e.getX()-camera.getX(),
+                    e.getY()-camera.getY(), 1, 1, 255, 255, 10);
                 commands.add(cmd);
             }
             cmd = new DrawBatchCommand(commands);

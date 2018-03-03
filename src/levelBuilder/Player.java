@@ -36,4 +36,20 @@ public class Player extends Entity {
     public Entity getCopy() {
         throw new RuntimeException("Calling getCopy on Player object. Why?");
     }
+
+    public boolean tryMove(char c, World world) {
+        Point newPosition = new Point(this.getPosition());
+        if (c == 'w') {newPosition.add(0, 1);}
+        if (c == 'a') {newPosition.add(-1, 0);}
+        if (c == 's') {newPosition.add(0, -1);}
+        if (c == 'd') {newPosition.add(1, 0);}
+        if (!newPosition.equals(this.getPosition())) {
+            TETile target = world.getTile(newPosition.getX(), newPosition.getY());
+            if (target.getType().equals(TileType.FLOOR)) {
+                world.getPlayer().setPosition(newPosition);
+                return true;
+            }
+        }
+        return false;
+    }
 }

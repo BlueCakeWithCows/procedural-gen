@@ -48,4 +48,10 @@ public abstract class Entity {
     public int getY() {
         return position.getY();
     }
+
+    public void setPosition(Point newPosition) {
+        this.position.setLocation(newPosition.getX(), newPosition.getY());
+    }
+
+    ;
 }

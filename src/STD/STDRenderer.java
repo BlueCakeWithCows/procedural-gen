@@ -13,9 +13,14 @@ import tileEngine.TETile;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static java.util.stream.Collectors.groupingBy;
 import static renderer.Fonts.CHAR;
 
 public class STDRenderer implements Renderer {
@@ -25,7 +30,7 @@ public class STDRenderer implements Renderer {
     private int width;
     private int height;
     private static final int TILE_SIZE = 16;
-
+    private TextureSorter sorter;
 
     public STDRenderer() {
 
@@ -42,6 +47,7 @@ public class STDRenderer implements Renderer {
         StdDraw.enableDoubleBuffering();
         StdDraw.show();
         loadGraphics();
+        this.sorter = new TextureSorter();
     }
 
     private void loadGraphics() {
@@ -63,26 +69,30 @@ public class STDRenderer implements Renderer {
         StdDraw.clear(new Color(0, 0, 0));
         List<DrawCommand> commands = commandPack.unpack();
 
-        for (DrawCommand drawCommand : commands) {
-            if (drawCommand instanceof DrawTextCommand) {
-                DrawTextCommand cmd = (DrawTextCommand) drawCommand;
-                StdDraw.setPenColor(Color.WHITE);
-                StdDraw.setFont(getFont(cmd.type));
-                StdDraw.text(cmd.x, cmd.y, cmd.text);
-            }
-            StdDraw.setFont(fontMap.get(CHAR));
-            if (drawCommand instanceof DrawTextureCommand) {
-                DrawTextureCommand cmd = (DrawTextureCommand) drawCommand;
-                if (texturesMap.containsKey(cmd.texture)) {
-                    StdDraw.picture(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2,
-                        texturesMap.get(cmd.texture), 1, 1
-                    );
-                } else {
-                    StdDraw.setPenColor(Color.RED);
-                    StdDraw.text(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2,
-                        String.valueOf(cmd.texture.getChar())
-                    );
-                }
+        Map<Class, List<DrawCommand>> collections = commands.stream()
+                                                        .collect(groupingBy(x -> x.getClass()));
+        for (DrawTextCommand cmd : (List<DrawTextCommand>) (List<?>) collections.getOrDefault(
+            DrawTextCommand.class, new ArrayList<>())) {
+            StdDraw.setPenColor(Color.WHITE);
+            StdDraw.setFont(getFont(cmd.type));
+            StdDraw.text(cmd.x, cmd.y, cmd.text);
+        }
+
+
+        List<DrawTextureCommand> textureCommands = (List<DrawTextureCommand>) (List<?>) collections
+                                                                                            .getOrDefault(
+                                                                                                DrawTextureCommand.class,
+                                                                                                new ArrayList<>());
+        Collections.sort(textureCommands,sorter);
+        StdDraw.setFont(fontMap.get(CHAR));
+        for (DrawTextureCommand cmd : textureCommands) {
+            if (texturesMap.containsKey(cmd.texture)) {
+                StdDraw.picture(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2,
+                    texturesMap.get(cmd.texture), 1, 1);
+            } else {
+                StdDraw.setPenColor(Color.RED);
+                StdDraw.text(cmd.x + cmd.width / 2, cmd.y + cmd.height / 2,
+                    String.valueOf(cmd.texture.getChar()));
             }
         }
         StdDraw.show();
@@ -112,5 +122,17 @@ public class STDRenderer implements Renderer {
             sb.append('\n');
         }
         return sb.toString();
+    }
+
+
+    private class TextureSorter implements Comparator<DrawTextureCommand> {
+
+        @Override
+        public int compare(DrawTextureCommand o1, DrawTextureCommand o2) {
+//            if (o1.getZ() == o2.getZ()) {
+//                return o1.texture.compareTo(o2.texture);
+//            }
+            return Integer.compare(o1.getZ(), o2.getZ());
+        }
     }
 }

@@ -53,4 +53,18 @@ public class Rectangle {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public void center(Point position) {
+        this.x1 = position.getX() - width / 2;
+        this.y1 = position.getY() - height / 2;
+    }
+
+    public void bound(int minX, int minY, int maxX, int maxY) {
+        if (x1 < minX) { x1 = minX; }
+        if (y1 < minY) { y1 = minY; }
+        if (getX2() >= maxX) { x1 = maxX - width; }
+        if (getY2() >= maxY) { y1 = maxY - height; }
+
+
+    }
 }

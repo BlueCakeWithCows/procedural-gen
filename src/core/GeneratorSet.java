@@ -18,7 +18,7 @@ public class GeneratorSet {
                 2, 4, 3, 10, new int[]{100, 100}, 50, 50
             );
             return generator.generate(l, player,
-                Map.ofEntries(entry("width", 50), entry("height", 50),
+                Map.ofEntries(entry("width", 200), entry("height", 200),
                     entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                     entry("wall_tile2", Tileset.WALL)
                 )

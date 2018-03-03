@@ -21,8 +21,10 @@ public class Game {
     private Deque<Character> inputDeque;
     private GameState gameState;
     private boolean gameOver;
+    private int headSpace = 5;
 
-    private static final int WIDTH = 50, HEIGHT = 50;
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 30;
     //This is the main game instance // state managers thingy
     //core.Game currently has 3 windows // modes
 
@@ -44,13 +46,15 @@ public class Game {
         View view = new View(WIDTH, HEIGHT);
         inputDeque = new ArrayDeque<>();
         handlerList = new ArrayList<>();
-        renderer.initialize(WIDTH, HEIGHT);
+        renderer.initialize(WIDTH, HEIGHT+headSpace);
         setGameState(new StartMenu(this));
         renderer.render(gameState.getDrawBatch(view));
         while (!gameOver) {
             inputDeque.add(input.getBlockingInput());
             doNextInput();
+            //long start =System.nanoTime();
             renderer.render(gameState.getDrawBatch(view));
+            //System.out.println( 1d/((double)(System.nanoTime()-start)/1000000000.0));
         }
         gameState.close(this);
     }

@@ -17,20 +17,18 @@ import java.util.List;
 public class Game {
 
 
+    public static final int TOTAL_WIDTH = 60;
+    public static final int TOTAL_HEIGHT = 45;
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 40;
     private static final double MAX_FPS = 60;
     private List<InputHandler> handlerList;
     private Deque<Character> inputDeque;
     private GameState gameState;
     private volatile boolean gameOver;
     private Input input;
-
-    public static final int TOTAL_WIDTH = 60;
-    public static final int TOTAL_HEIGHT = 45;
-    public static final int WIDTH = 60;
-    public static final int HEIGHT = 40;
     //This is the main game instance // state managers thingy
     //Core.Game currently has 3 windows // modes
-
 
     public void playWithKeyboard() {
         STDRenderer screen = new STDRenderer();
@@ -46,14 +44,14 @@ public class Game {
         return null;
     }
 
-    public void play(Input input, Renderer renderer) {
+    public void play(Input inputInstance, Renderer renderer) {
         inputDeque = new ArrayDeque<>();
         handlerList = new LinkedList<>();
         this.registerInputHandler(new SaveAndQuit(this));
         setGameState(new StartMenu(this));
         (new RenderThread(renderer)).start();
         while (!gameOver) {
-            inputDeque.add(input.getBlockingInput());
+            inputDeque.add(inputInstance.getBlockingInput());
             doNextInput();
         }
         gameState.close(this);
@@ -67,10 +65,49 @@ public class Game {
         return gameState;
     }
 
+    public void setGameState(GameState state) {
+        if (gameState != null) { this.gameState.close(this); }
+        this.gameState = state;
+        this.gameState.show(this);
+    }
+
     public void addToQueue(String save) {
         for (char c : save.toCharArray()) {
             inputDeque.add(c);
         }
+    }
+
+    ;
+
+    private void doNextInput() {
+        while (!inputDeque.isEmpty()) {
+            doInput(inputDeque.poll());
+            gameState.update(this, 1);
+        }
+    }
+
+    private void doInput(char c) {
+        for (InputHandler input : handlerList) {
+            if (input.doInput(c)) { break; }
+        }
+    }
+
+
+    public void registerInputHandler(InputHandler handler) {
+        handlerList.add(handler);
+    }
+
+    public void removeInputHandler(InputHandler handler) {
+        assert handlerList.contains(handler);
+        handlerList.remove(handler);
+    }
+
+    public void clearInputHandlers(InputHandler handler) {
+        handlerList.clear();
+    }
+
+    public void setGameOver(boolean bool) {
+        this.gameOver = bool;
     }
 
     private class RenderThread extends Thread {
@@ -109,45 +146,5 @@ public class Game {
                 e.printStackTrace();
             }
         }
-    }
-
-    ;
-
-
-    private void doNextInput() {
-        while (!inputDeque.isEmpty()) {
-            doInput(inputDeque.poll());
-            gameState.update(this, 1);
-        }
-    }
-
-    private void doInput(char c) {
-        for (InputHandler input : handlerList) {
-            if (input.doInput(c)) { break; }
-        }
-    }
-
-
-    public void registerInputHandler(InputHandler handler) {
-        handlerList.add(handler);
-    }
-
-    public void removeInputHandler(InputHandler handler) {
-        assert handlerList.contains(handler);
-        handlerList.remove(handler);
-    }
-
-    public void clearInputHandlers(InputHandler handler) {
-        handlerList.clear();
-    }
-
-    public void setGameState(GameState state) {
-        if (gameState != null) { this.gameState.close(this); }
-        this.gameState = state;
-        this.gameState.show(this);
-    }
-
-    public void setGameOver(boolean bool) {
-        this.gameOver = bool;
     }
 }

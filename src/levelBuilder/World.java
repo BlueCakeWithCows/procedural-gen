@@ -34,6 +34,22 @@ public class World {
         this.calculateTotalLightLevel();
     }
 
+    public World(TETile[][] tiles, List<Entity> entities, Player player, int[][] staticLightMap) {
+        this.setTiles(tiles);
+        this.setEntities(entities);
+        this.setPlayer(player);
+        this.setRegion(new TileRegion(tiles));
+        this.setDynamicLightMap(new int[getRegion().getWidth()][getRegion().getHeight()]);
+        this.setStaticLightMap(staticLightMap);
+        this.fogLightMap = (new byte[getRegion().getWidth()][getRegion().getHeight()]);
+        for (int row = 0; row < getRegion().getHeight(); row++) {
+            for (int col = 0; col < getRegion().getWidth(); col++) {
+                getFogLightMap()[col][row] = 0;
+            }
+        }
+        this.calculateTotalLightLevel();
+    }
+
     public void recalculateStaticLightMap() {
         staticLightMap = region.getLightMap();
     }
@@ -49,23 +65,6 @@ public class World {
             }
         }
         dynamicLightMap = getLightMap(newMap, points);
-    }
-
-
-    public World(TETile[][] tiles, List<Entity> entities, Player player, int[][] staticLightMap) {
-        this.setTiles(tiles);
-        this.setEntities(entities);
-        this.setPlayer(player);
-        this.setRegion(new TileRegion(tiles));
-        this.setDynamicLightMap(new int[getRegion().getWidth()][getRegion().getHeight()]);
-        this.setStaticLightMap(staticLightMap);
-        this.fogLightMap = (new byte[getRegion().getWidth()][getRegion().getHeight()]);
-        for (int row = 0; row < getRegion().getHeight(); row++) {
-            for (int col = 0; col < getRegion().getWidth(); col++) {
-                getFogLightMap()[col][row] = 0;
-            }
-        }
-        this.calculateTotalLightLevel();
     }
 
     public int[][] getTotalLightLevel() {

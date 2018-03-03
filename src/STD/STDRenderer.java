@@ -25,21 +25,39 @@ import static renderer.Fonts.CHAR;
 
 public class STDRenderer implements Renderer {
 
-    private HashMap<Fonts, Font> fontMap;
-    private HashMap<Textures, String> texturesMap;
-    private int width;
-    private int height;
     private static final int TILE_SIZE = 16;
-    private TextureSorter sorter;
     private static final Color[] DARKNESS = new Color[]{
         new Color(0, 0, 0, 255), new Color(0, 0, 0, 200), new Color(0, 0, 0, 180),
         new Color(0, 0, 0, 160), new Color(0, 0, 0, 140), new Color(0, 0, 0, 120),
         new Color(0, 0, 0, 100), new Color(0, 0, 0, 80), new Color(0, 0, 0, 60),
         new Color(0, 0, 0, 40), new Color(0, 0, 0, 20), new Color(0, 0, 0, 0)
     };
+    private HashMap<Fonts, Font> fontMap;
+    private HashMap<Textures, String> texturesMap;
+    private int width;
+    private int height;
+    private TextureSorter sorter;
 
     public STDRenderer() {
 
+    }
+
+    public static String toString(TETile[][] world) {
+        int width = world.length;
+        int height = world[0].length;
+        StringBuilder sb = new StringBuilder();
+
+        for (int y = height - 1; y >= 0; y -= 1) {
+            for (int x = 0; x < width; x += 1) {
+                if (world[x][y] == null) {
+                    throw new IllegalArgumentException(
+                        "Tile at position x=" + x + ", y=" + y + "" + " is null.");
+                }
+                //sb.append(world[x][y].getCharacter());
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
     }
 
     @Override
@@ -67,7 +85,7 @@ public class STDRenderer implements Renderer {
         for (Textures tex : texturesMap.keySet()) {
             try {
                 StdDraw.picture(0, 0, texturesMap.get(tex));
-            } catch (Exception e) {
+            } catch (IllegalArgumentException exception) {
                 MyLogger.log("StdDraw failed to load " + tex + ": " + texturesMap.get(tex));
                 texturesMap.remove(tex);
             }
@@ -119,25 +137,6 @@ public class STDRenderer implements Renderer {
         }
         return font;
     }
-
-    public static String toString(TETile[][] world) {
-        int width = world.length;
-        int height = world[0].length;
-        StringBuilder sb = new StringBuilder();
-
-        for (int y = height - 1; y >= 0; y -= 1) {
-            for (int x = 0; x < width; x += 1) {
-                if (world[x][y] == null) {
-                    throw new IllegalArgumentException(
-                        "Tile at position x=" + x + ", y=" + y + "" + " is null.");
-                }
-                //sb.append(world[x][y].getCharacter());
-            }
-            sb.append('\n');
-        }
-        return sb.toString();
-    }
-
 
     private class TextureSorter implements Comparator<DrawTextureCommand> {
 

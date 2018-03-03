@@ -3,12 +3,11 @@ package Core;
 public class SaveAndQuit implements InputHandler {
     private StringBuilder log = new StringBuilder();
     private Game game;
+    private boolean colonLast = false;
 
     public SaveAndQuit(Game game) {
         this.game = game;
     }
-
-    private boolean colonLast = false;
 
     @Override
     public boolean doInput(char c) {

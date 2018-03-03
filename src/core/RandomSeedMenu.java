@@ -15,6 +15,8 @@ public class RandomSeedMenu implements GameState {
 
     private StringBuilder seed;
     private Game game;
+    private DrawBatchCommand cachedDrawBatch;
+    private boolean cached = false;
 
     public RandomSeedMenu(Game game) {
         this.game = game;
@@ -45,9 +47,6 @@ public class RandomSeedMenu implements GameState {
         seed = new StringBuilder();
         game.registerInputHandler(this);
     }
-
-    private DrawBatchCommand cachedDrawBatch;
-    private boolean cached = false;
 
     @Override
     public DrawBatchCommand getDrawBatch(View view) {

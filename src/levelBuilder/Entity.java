@@ -37,6 +37,10 @@ public abstract class Entity {
         return position;
     }
 
+    public void setPosition(Point newPosition) {
+        this.position.setLocation(newPosition.getX(), newPosition.getY());
+    }
+
     public void setPosition(int x, int y) {
         this.position.setLocation(x, y);
     }
@@ -55,10 +59,6 @@ public abstract class Entity {
 
     public int getY() {
         return position.getY();
-    }
-
-    public void setPosition(Point newPosition) {
-        this.position.setLocation(newPosition.getX(), newPosition.getY());
     }
 
     public Set<IPoint> getLOS(World world) {

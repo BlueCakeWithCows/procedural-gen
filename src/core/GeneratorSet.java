@@ -14,8 +14,9 @@ public class GeneratorSet {
     public static GeneratorBag defaultSet = new GeneratorBag() {
         @Override
         public World generate(long l, Player player) {
-            DungeonGenerator generator = new DungeonGenerator("Default Generator", .3, 1, .01, 12,
-                2.5, 4, 3, 10, new int[]{100, 100}, 50, 50);
+            DungeonGenerator generator =
+                new DungeonGenerator("Default Generator", .3, 1, .01, 12, 2.5, 4, 3, 10,
+                    new int[]{100, 100}, 50, 50);
             return generator.generate(l, player,
                 Map.ofEntries(entry("width", 200), entry("height", 200),
                     entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),

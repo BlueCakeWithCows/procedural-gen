@@ -5,6 +5,7 @@ import renderer.View;
 
 public interface GameState extends InputHandler {
     boolean graphicsReady();
+
     String getLabel();
 
     void update(Game game, double dt);

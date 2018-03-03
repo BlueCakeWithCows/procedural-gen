@@ -72,12 +72,12 @@ public class DungeonGenerator implements Generator {
         ArrayList<Entity> entities = new ArrayList<Entity>();
         double currentDensity;
         do {
-            List<Point> nodes = Util.getRandomPointsInRange(random, 3, 3, width - 3, height - 3,
-                nodeDensity, nodeSpacing
-            );
-            List<Rectangle> rectangles = Util.getRandomRectanglesAround(random, nodes, minSize,
-                maxSize, 1, 1, width - 1, height - 1
-            );
+            List<Point> nodes =
+                Util.getRandomPointsInRange(random, 3, 3, width - 3, height - 3, nodeDensity,
+                    nodeSpacing);
+            List<Rectangle> rectangles =
+                Util.getRandomRectanglesAround(random, nodes, minSize, maxSize, 1, 1, width - 1,
+                    height - 1);
             grid = Util.createEmptyWorld(width, height);
             TileRegion region = new TileRegion(grid);
             for (Rectangle r : rectangles) {
@@ -94,9 +94,9 @@ public class DungeonGenerator implements Generator {
             Util.prune(floorTile, nodes.get(uniform(random, 0, nodes.size())), region);
             Util.generateWalls(region, wallTile1, wallTile2);
             Point delta = Util.getOffCenter(region);
-            for(Point p: nodes){
+            for (Point p : nodes) {
                 player.setPositionRef(new Point(p));
-                if(region.getTile(p.getX(), p.getY()).getType() == FLOOR){
+                if (region.getTile(p.getX(), p.getY()).getType() == FLOOR) {
                     break;
                 }
             }

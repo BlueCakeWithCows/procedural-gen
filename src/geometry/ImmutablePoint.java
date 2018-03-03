@@ -12,6 +12,18 @@ public class ImmutablePoint extends IPoint {
         Integer i;
     }
 
+    public static int distanceSq(int x1, int y1, int x2, int y2) {
+        return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+    }
+
+    public static ImmutablePoint valueOf(int x, int y) {
+        if (x >= PointCache.low && x <= PointCache.high && y >= PointCache.low
+                && y <= PointCache.high) {
+            return PointCache.cache[y * PointCache.size + x];
+        }
+        return new ImmutablePoint(x, y);
+    }
+
     public ImmutablePoint add(int x, int y) {
         return null;
     }
@@ -19,10 +31,6 @@ public class ImmutablePoint extends IPoint {
     public void add(int[] point) { add(point[0], point[1]); }
 
     public void add(ImmutablePoint point) { add(point.getX(), point.getY()); }
-
-    public static int distanceSq(int x1, int y1, int x2, int y2) {
-        return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
-    }
 
     public int distanceSq(int x, int y) {
         return ImmutablePoint.distanceSq(this.x, this.y, x, y);
@@ -32,17 +40,8 @@ public class ImmutablePoint extends IPoint {
         return x;
     }
 
-
     public int getY() {
         return y;
-    }
-
-
-    public static ImmutablePoint valueOf(int x, int y) {
-        if (x >= PointCache.low && x <= PointCache.high && y >= PointCache.low && y <= PointCache.high) {
-            return PointCache.cache[y * PointCache.size + x];
-        }
-        return new ImmutablePoint(x, y);
     }
 
     @Override

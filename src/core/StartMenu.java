@@ -12,6 +12,7 @@ import java.util.List;
 public class StartMenu implements GameState, InputHandler {
 
     private Game game;
+    private DrawBatchCommand cachedDrawBatch;
 
     public StartMenu(Game game) {
         this.game = game;
@@ -33,13 +34,13 @@ public class StartMenu implements GameState, InputHandler {
     }
 
     @Override
-    public void close(Game game) {
-        game.removeInputHandler(this);
+    public void close(Game gameInstance) {
+        gameInstance.removeInputHandler(this);
     }
 
     @Override
-    public void show(Game game) {
-        game.registerInputHandler(this);
+    public void show(Game gameInstance) {
+        gameInstance.registerInputHandler(this);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class StartMenu implements GameState, InputHandler {
         switch (Character.toLowerCase(c)) {
             case 'l':
                 String save = SaveGame.loadData();
-                if (save == null) {System.exit(0);}
+                if (save == null) { System.exit(0); }
 
                 game.addToQueue(save);
                 break;
@@ -75,6 +76,4 @@ public class StartMenu implements GameState, InputHandler {
         }
         return true;
     }
-
-    private DrawBatchCommand cachedDrawBatch;
 }

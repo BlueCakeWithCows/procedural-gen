@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileRegion {
-    private int x, y, width, height;
     private final TETile[][] grid;
+    private int x, y, width, height;
 
 
     public TileRegion(TETile[][] grid) {

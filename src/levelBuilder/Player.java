@@ -14,6 +14,8 @@ import java.util.Set;
  */
 public class Player extends Entity implements LightSource {
 
+    private Set<IPoint> lastSeen = new HashSet<>();
+
     public Player(Point position) {
         super(position);
     }
@@ -47,8 +49,6 @@ public class Player extends Entity implements LightSource {
     public Entity getCopy() {
         throw new RuntimeException("Calling getCopy on Player object. Why?");
     }
-
-    private Set<IPoint> lastSeen = new HashSet<>();
 
     public boolean tryMove(char c, World world) {
         Point newPosition = new Point(this.getPosition());

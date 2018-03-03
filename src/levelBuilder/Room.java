@@ -17,8 +17,7 @@ public class Room extends TileRegion {
     }
 
     public String toString() {
-        return getTAG() + ": " + getX() + ", " + getY() + ", " + getWidth() + ", "
-                   + getHeight();
+        return getTAG() + ": " + getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight();
     }
 
     public String getTAG() {

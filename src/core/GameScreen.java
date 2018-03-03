@@ -19,11 +19,14 @@ import java.util.List;
 
 public class GameScreen implements GameState {
 
+    volatile boolean ready = false;
     private Dungeon dungeon;
     private World world;
     private Player player;
     private Rectangle camera;
     private Game game;
+    private boolean cached = false;
+    private DrawBatchCommand cmd;
 
     public GameScreen(Game game, Player player, Dungeon dungeon) {
         this.game = game;
@@ -35,8 +38,6 @@ public class GameScreen implements GameState {
     public boolean graphicsReady() {
         return ready;
     }
-
-    volatile boolean ready = false;
 
     @Override
     public String getLabel() {
@@ -64,7 +65,6 @@ public class GameScreen implements GameState {
         ready = true;
     }
 
-
     @Override
     public boolean doInput(char c) {
         player.tryMove(c, world);
@@ -72,9 +72,6 @@ public class GameScreen implements GameState {
             world.getRegion().getHeight());
         return true;
     }
-
-    private boolean cached = false;
-    private DrawBatchCommand cmd;
 
     @Override
     public DrawBatchCommand getDrawBatch(View view) {

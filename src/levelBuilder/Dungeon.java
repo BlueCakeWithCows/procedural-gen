@@ -1,6 +1,6 @@
 package levelBuilder;
 
-import core.Util;
+import Core.Util;
 
 public class Dungeon {
 

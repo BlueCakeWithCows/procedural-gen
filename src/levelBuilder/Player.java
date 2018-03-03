@@ -25,7 +25,9 @@ public class Player extends Entity implements LightSource {
 
     @Override
     public void update(World world, double dt) {
-        updateVision(world);
+        if (dt == 0) {
+            updateVision(world);
+        }
     }
 
     public boolean[] getPossibleMoves(World world) {
@@ -58,6 +60,7 @@ public class Player extends Entity implements LightSource {
             TETile target = world.getTile(newPosition.getX(), newPosition.getY());
             if (target.getType().equals(TileType.FLOOR)) {
                 world.getPlayer().setPosition(newPosition);
+                updateVision(world);
                 return true;
             }
         }

@@ -1,4 +1,4 @@
-package core;
+package Core;
 
 import STD.STDInput;
 import STD.STDRenderer;
@@ -10,8 +10,8 @@ import renderer.View;
 import tileEngine.TETile;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
@@ -21,7 +21,7 @@ public class Game {
     private List<InputHandler> handlerList;
     private Deque<Character> inputDeque;
     private GameState gameState;
-    private boolean gameOver;
+    private volatile boolean gameOver;
     private Input input;
 
     public static final int TOTAL_WIDTH = 60;
@@ -29,13 +29,14 @@ public class Game {
     public static final int WIDTH = 60;
     public static final int HEIGHT = 40;
     //This is the main game instance // state managers thingy
-    //core.Game currently has 3 windows // modes
+    //Core.Game currently has 3 windows // modes
 
 
     public void playWithKeyboard() {
         STDRenderer screen = new STDRenderer();
         this.input = new STDInput();
         play(input, screen);
+        System.exit(0);
     }
 
     public TETile[][] playWithInputString(String arg) {
@@ -47,19 +48,29 @@ public class Game {
 
     public void play(Input input, Renderer renderer) {
         inputDeque = new ArrayDeque<>();
-        handlerList = new ArrayList<>();
+        handlerList = new LinkedList<>();
+        this.registerInputHandler(new SaveAndQuit(this));
         setGameState(new StartMenu(this));
         (new RenderThread(renderer)).start();
         while (!gameOver) {
             inputDeque.add(input.getBlockingInput());
             doNextInput();
-            gameState.update(this, 0);
         }
         gameState.close(this);
     }
 
     public Input getInput() {
         return input;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void addToQueue(String save) {
+        for (char c : save.toCharArray()) {
+            inputDeque.add(c);
+        }
     }
 
     private class RenderThread extends Thread {
@@ -78,7 +89,7 @@ public class Game {
             long msPerFrame = (long) (1000.0 * 1.0 / MAX_FPS);
             View view = new View(WIDTH, HEIGHT);
 
-            while (renderer != null) {
+            while (true) {
                 //long start = System.nanoTime();
                 currentTime = System.currentTimeMillis();
                 dt = currentTime - lastTime;
@@ -106,12 +117,13 @@ public class Game {
     private void doNextInput() {
         while (!inputDeque.isEmpty()) {
             doInput(inputDeque.poll());
+            gameState.update(this, 1);
         }
     }
 
     private void doInput(char c) {
         for (InputHandler input : handlerList) {
-            input.doInput(c);
+            if (input.doInput(c)) { break; }
         }
     }
 

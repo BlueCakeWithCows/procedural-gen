@@ -1,4 +1,4 @@
-package core;
+package Core;
 
 import renderer.DrawBatchCommand;
 import renderer.DrawCommand;
@@ -59,16 +59,21 @@ public class StartMenu implements GameState, InputHandler {
     }
 
     @Override
-    public void doInput(char c) {
+    public boolean doInput(char c) {
         switch (Character.toLowerCase(c)) {
             case 'l':
+                String save = SaveGame.loadData();
+                if (save == null) {System.exit(0);}
+
+                game.addToQueue(save);
                 break;
             case 'n':
                 game.setGameState(new RandomSeedMenu(game));
                 break;
             default:
-                break;
+                return false;
         }
+        return true;
     }
 
     private DrawBatchCommand cachedDrawBatch;

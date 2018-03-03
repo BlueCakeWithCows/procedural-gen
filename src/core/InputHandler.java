@@ -1,8 +1,8 @@
-package core;
+package Core;
 
 public interface InputHandler {
 
-    void doInput(char c);
+    boolean doInput(char c);
 
 
 }

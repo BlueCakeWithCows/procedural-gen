@@ -1,7 +1,7 @@
 package levelBuilder.generators;
 
-import core.MailDistanceSort;
-import core.Util;
+import Core.MailDistanceSort;
+import Core.Util;
 import geometry.Point;
 import geometry.Rectangle;
 import levelBuilder.Entity;
@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static core.RandomUtils.uniform;
+import static Core.RandomUtils.uniform;
+import static tileEngine.TileType.FLOOR;
 import static tileEngine.TileType.NOTHING;
 
 public class DungeonGenerator implements Generator {
@@ -93,7 +94,13 @@ public class DungeonGenerator implements Generator {
             Util.prune(floorTile, nodes.get(uniform(random, 0, nodes.size())), region);
             Util.generateWalls(region, wallTile1, wallTile2);
             Point delta = Util.getOffCenter(region);
-            player.setPositionRef(new Point(nodes.get(0)));
+            for(Point p: nodes){
+                player.setPositionRef(new Point(p));
+                if(region.getTile(p.getX(), p.getY()).getType() == FLOOR){
+                    break;
+                }
+            }
+
             Util.shiftRegion(region, delta.getX(), delta.getY());
             player.getPosition().add(delta);
             currentDensity = 1d - Util.getDensity(region, NOTHING);

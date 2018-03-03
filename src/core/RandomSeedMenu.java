@@ -1,4 +1,4 @@
-package core;
+package Core;
 
 import levelBuilder.Dungeon;
 import levelBuilder.Player;
@@ -69,24 +69,24 @@ public class RandomSeedMenu implements GameState {
     }
 
     @Override
-    public void doInput(char c) {
+    public boolean doInput(char c) {
         cached = false;
 
         if (c == ('\b')) {
             if (seed.length() > 0) {
                 seed.deleteCharAt(seed.length() - 1);
             }
-            return;
+            return true;
         }
 
         if (c == '0' && seed.length() == 0) {
-            return;
+            return true;
         }
         if (Character.isDigit(c)) {
             if (seed.length() < 19) {
                 seed.append(c);
             }
-            return;
+            return true;
         }
 
         if (c == 's') {
@@ -99,7 +99,8 @@ public class RandomSeedMenu implements GameState {
             Player player = new Player();
             game.setGameState(
                 new GameScreen(game, player, new Dungeon(lSeed, GeneratorSet.defaultSet)));
-            return;
+            return true;
         }
+        return false;
     }
 }

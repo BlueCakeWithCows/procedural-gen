@@ -1,4 +1,4 @@
-package core;
+package Core;
 
 import geometry.Rectangle;
 import levelBuilder.Dungeon;
@@ -66,11 +66,11 @@ public class GameScreen implements GameState {
 
 
     @Override
-    public void doInput(char c) {
+    public boolean doInput(char c) {
         player.tryMove(c, world);
         camera.boundCenter(player.getPosition(), 0, 0, world.getRegion().getWidth(),
             world.getRegion().getHeight());
-        cached = false;
+        return true;
     }
 
     private boolean cached = false;
@@ -78,40 +78,36 @@ public class GameScreen implements GameState {
 
     @Override
     public DrawBatchCommand getDrawBatch(View view) {
-        if (!cached) {
-            List<DrawCommand> commands = new ArrayList<>();
-            for (int col = camera.getX(); col < camera.getX2(); col++) {
-                for (int row = camera.getY(); row < camera.getY2() - 1; row++) {
-                    TETile tile = world.getRegion().getTile(col, row);
-                    DrawTextureCommand cmd =
-                        new DrawTextureCommand(tile.getTexture(), col - camera.getX(),
-                            row - camera.getY(), 1, 1, 255, world.getVisibleLightLevel(col, row),
-                            1);
-                    commands.add(cmd);
-                }
-            }
-
-
-            for (Entity e : world.getEntities()) {
-                TETile tile = e.getTile();
+        List<DrawCommand> commands = new ArrayList<>();
+        for (int col = camera.getX(); col < camera.getX2(); col++) {
+            for (int row = camera.getY(); row < camera.getY2() - 1; row++) {
+                TETile tile = world.getRegion().getTile(col, row);
                 DrawTextureCommand cmd =
-                    new DrawTextureCommand(tile.getTexture(), e.getX() - camera.getX(),
-                        e.getY() - camera.getY(), 1, 1, 255,
-                        world.getVisibleLightLevel(e.getX(), e.getY()), 10);
+                    new DrawTextureCommand(tile.getTexture(), col - camera.getX(),
+                        row - camera.getY(), 1, 1, 255, world.getVisibleLightLevel(col, row), 1);
                 commands.add(cmd);
             }
-
-            Point2D point = this.game.getInput().pollMouse();
-            commands.add(new DrawTextCommand(Fonts.ARIAL,
-                getTileType((int) point.getX(), (int) point.getY()), 4, game.TOTAL_HEIGHT - 1.2));
-            commands.add(new DrawTextCommand(Fonts.ARIAL,
-                getEntityType((int) point.getX(), (int) point.getY()), 4, game.TOTAL_HEIGHT - 2.8));
-
-            cmd = new DrawBatchCommand(commands);
-            cached = false;
-
-
         }
+
+
+        for (Entity e : world.getEntities()) {
+            TETile tile = e.getTile();
+            DrawTextureCommand cmd =
+                new DrawTextureCommand(tile.getTexture(), e.getX() - camera.getX(),
+                    e.getY() - camera.getY(), 1, 1, 255,
+                    world.getVisibleLightLevel(e.getX(), e.getY()), 10);
+            commands.add(cmd);
+        }
+
+        Point2D point = this.game.getInput().pollMouse();
+        commands.add(
+            new DrawTextCommand(Fonts.ARIAL, getTileType((int) point.getX(), (int) point.getY()), 4,
+                game.TOTAL_HEIGHT - 1.2));
+        commands.add(
+            new DrawTextCommand(Fonts.ARIAL, getEntityType((int) point.getX(), (int) point.getY()),
+                4, game.TOTAL_HEIGHT - 2.8));
+
+        cmd = new DrawBatchCommand(commands);
         return cmd;
     }
 
@@ -132,5 +128,4 @@ public class GameScreen implements GameState {
         }
         return targetEntity.getTile().getDescription();
     }
-
 }

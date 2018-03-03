@@ -1,6 +1,6 @@
 package levelBuilder;
 
-import core.MyLogger;
+import Core.MyLogger;
 
 import java.util.Map;
 import java.util.Random;

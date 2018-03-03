@@ -1,4 +1,4 @@
-package core;
+package Core;
 
 import renderer.DrawBatchCommand;
 import renderer.View;
@@ -16,5 +16,5 @@ public interface GameState extends InputHandler {
     DrawBatchCommand getDrawBatch(View view);
 
     @Override
-    void doInput(char c);
+    boolean doInput(char c);
 }

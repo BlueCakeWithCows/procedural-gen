@@ -1,9 +1,9 @@
-import core.Game;
+import Core.Game;
 import tileEngine.TETile;
 
 /**
  * This is the main entry point for the program. This class simply parses
- * the command line inputs, and lets the core.Game class take over
+ * the command line inputs, and lets the Core.Game class take over
  * in either keyboard or input string mode.
  */
 public class Main {

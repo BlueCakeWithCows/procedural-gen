@@ -1,6 +1,6 @@
 package STD;
 
-import core.MyLogger;
+import Core.MyLogger;
 import edu.princeton.cs.introcs.StdDraw;
 import renderer.DrawBatchCommand;
 import renderer.DrawCommand;

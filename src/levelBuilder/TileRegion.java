@@ -1,6 +1,6 @@
 package levelBuilder;
 
-import core.Util;
+import Core.Util;
 import geometry.Point;
 import geometry.Rectangle;
 import tileEngine.TETile;

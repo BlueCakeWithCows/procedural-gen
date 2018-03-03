@@ -40,4 +40,12 @@ public abstract class Entity {
     public void setTile(TETile tile) {
         this.tile = tile;
     }
+
+    public int getX() {
+        return position.getX();
+    }
+
+    public int getY() {
+        return position.getY();
+    }
 }

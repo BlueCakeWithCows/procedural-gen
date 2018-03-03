@@ -1,4 +1,4 @@
-package levelBuilder.ugly;
+package levelBuilder;
 
 import core.Util;
 import geometry.Point;
@@ -9,24 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileRegion {
+    private int x, y, width, height;
     private final TETile[][] grid;
-    private int offsetX;
-    private int offsetY;
-    private int width;
-    private int height;
+
 
     public TileRegion(TETile[][] grid) {
-        this.grid = grid;
-        setWidth(grid.length);
-        setHeight(grid[0].length);
+        this(grid, 0, 0, grid.length, grid[0].length);
     }
 
-    public TileRegion(TETile[][] grid, int offsetX, int offsetY, int width, int height) {
+    public TileRegion(TETile[][] grid, int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.grid = grid;
-        this.setOffsetX(offsetX);
-        this.setOffsetY(offsetY);
-        this.setWidth(width);
-        this.setHeight(height);
     }
 
     public TileRegion(TileRegion region, int[] offset, int[] size) {
@@ -34,9 +30,7 @@ public class TileRegion {
     }
 
     public TileRegion(TileRegion region) {
-        this(region.getGrid(), region.getOffsetX(), region.getOffsetY(), region.getWidth(),
-            region.getHeight()
-        );
+        this(region.getGrid(), region.getX(), region.getY(), region.getWidth(), region.getHeight());
     }
 
     public static TileRegion fillHex(TileRegion region, int[] p1, int size, TETile tile) {
@@ -55,25 +49,27 @@ public class TileRegion {
 
     public void setTile(int x, int y, TETile tile) {
         if (isValid(x, y)) {
-            getGrid()[x + getOffsetX()][y + getOffsetY()] = tile;
+            getGrid()[x + getX()][y + getY()] = tile;
         }
     }
 
     public TETile getTile(int x, int y) {
         if (isValid(x, y)) {
-            return getGrid()[x + getOffsetX()][y + getOffsetY()];
+            return getGrid()[x + getX()][y + getY()];
         }
         return null;
     }
 
     private boolean isValid(int x, int y) {
-
         if ((x < 0 || x >= getWidth() || y < 0 || y >= getHeight())) {
             return false;
         }
-        x += getOffsetX();
-        y += getOffsetY();
-        return x >= 0 && x < getGrid().length && y >= 0 && y < getGrid()[0].length;
+        x += getX();
+        y += getY();
+        if ((x < 0 || x >= grid.length || y < 0 || y >= grid[0].length)) {
+            return false;
+        }
+        return true;
     }
 
     public TileRegion getSubRegion(int[] pos1, int[] pos2) {
@@ -109,7 +105,7 @@ public class TileRegion {
         if (y1 + tHeight > getHeight()) {
             tHeight = getHeight() - y1;
         }
-        return new TileRegion(getGrid(), getOffsetX() + x1, getOffsetY() + y1, tWidth, tHeight);
+        return new TileRegion(getGrid(), this.getX() + x1, this.getY() + y1, tWidth, tHeight);
     }
 
     public List<Point> getByFloodFill(Point initial, TETile tile) {
@@ -268,45 +264,30 @@ public class TileRegion {
         return grid;
     }
 
-    public int getOffsetX() {
-        return offsetX;
+
+    public void fillRect(Rectangle r, TETile tile) {
+        int[] pos1 = new int[]{Math.min(r.getX(), r.getX2()), Math.min(r.getY(), r.getY2())};
+        int[] pos2 = new int[]{Math.max(r.getX(), r.getX2()), Math.max(r.getY(), r.getY2())};
+        for (int col = pos1[0]; col <= pos2[0]; col++) {
+            for (int row = pos1[1]; row <= pos2[1]; row++) {
+                this.setTile(col, row, tile);
+            }
+        }
     }
 
-    public void setOffsetX(int offsetX) {
-        this.offsetX = offsetX;
+    public int getX() {
+        return x;
     }
 
-    public int getOffsetY() {
-        return offsetY;
-    }
-
-    public void setOffsetY(int offsetY) {
-        this.offsetY = offsetY;
+    public int getY() {
+        return y;
     }
 
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void fillRect(Rectangle r, TETile tile) {
-        int[] pos1 = new int[]{Math.min(r.getX1(), r.getX2()), Math.min(r.getY1(), r.getY2())};
-        int[] pos2 = new int[]{Math.max(r.getX1(), r.getX2()), Math.max(r.getY1(), r.getY2())};
-        for (int col = pos1[0]; col <= pos2[0]; col++) {
-            for (int row = pos1[1]; row <= pos2[1]; row++) {
-                this.setTile(col, row, tile);
-            }
-        }
     }
 }

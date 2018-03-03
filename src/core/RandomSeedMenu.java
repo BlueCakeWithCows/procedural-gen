@@ -1,5 +1,7 @@
 package core;
 
+import levelBuilder.Dungeon;
+import levelBuilder.Player;
 import renderer.DrawBatchCommand;
 import renderer.DrawCommand;
 import renderer.DrawTextCommand;
@@ -89,7 +91,8 @@ public class RandomSeedMenu implements GameState {
             } else {
                 lSeed = Long.parseUnsignedLong(seed.toString());
             }
-            MyLogger.log("Seed: " + Long.toUnsignedString(lSeed));
+            Player player = new Player();
+            game.setGameState(new GameScreen(player, new Dungeon(lSeed, GeneratorSet.defaultSet)));
             return;
         }
     }

@@ -1,18 +1,9 @@
 package renderer;
 
-public class View {
-    private double width, height;
+import java.awt.geom.Rectangle2D;
 
+public class View extends Rectangle2D.Double {
     public View(double width, double height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
+        super(0, 0, width, height);
     }
 }

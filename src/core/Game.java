@@ -22,7 +22,7 @@ public class Game {
     private GameState gameState;
     private boolean gameOver;
 
-    private static final int WIDTH = 32, HEIGHT = 32;
+    private static final int WIDTH = 50, HEIGHT = 50;
     //This is the main game instance // state managers thingy
     //core.Game currently has 3 windows // modes
 

@@ -2,7 +2,7 @@ package levelBuilder;
 
 public class SimpleGeneratorSet implements GeneratorBag {
 
-    public SimpleGeneratorSet(Generator generator){
+    public SimpleGeneratorSet(Generator generator) {
 
     }
 

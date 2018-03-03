@@ -14,7 +14,7 @@ public class Rectangle {
         this.height = height;
     }
 
-    public int getX1() {
+    public int getX() {
         return x1;
     }
 
@@ -30,7 +30,7 @@ public class Rectangle {
         return y1 + height;
     }
 
-    public int getY1() {
+    public int getY() {
         return y1;
     }
 

@@ -15,7 +15,7 @@ public class Main {
             if (args.length == 1) {
                 Game game = new Game();
                 TETile[][] grid = game.playWithInputString(args[0]);
-                System.out.print(TETile.toString(grid));
+                //System.out.print(TETile.toString(grid));
             } else {
                 Game game = new Game();
                 game.playWithKeyboard();

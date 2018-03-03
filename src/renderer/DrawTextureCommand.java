@@ -2,13 +2,13 @@ package renderer;
 
 public class DrawTextureCommand implements DrawCommand {
     public final Textures texture;
-    public final int x, y;
-    public final int width, height;
+    public final double x, y;
+    public final double width, height;
     public final int opacity;
     public final int brightness;
 
-    public DrawTextureCommand(Textures texture, int x, int y, int width, int height, int opacity,
-        int brightness) {
+    public DrawTextureCommand(Textures texture, double x, double y, double width, double height,
+        int opacity, int brightness) {
         this.texture = texture;
         this.x = x;
         this.y = y;

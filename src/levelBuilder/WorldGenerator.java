@@ -1,7 +1,6 @@
 package levelBuilder;
 
 import core.MyLogger;
-import levelBuilder.ugly.TileRegion;
 
 import java.util.Map;
 import java.util.Random;

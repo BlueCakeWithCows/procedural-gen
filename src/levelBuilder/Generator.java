@@ -1,10 +1,10 @@
 package levelBuilder;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface Generator {
 
     String getDess();
 
-    World generate(long seed, Player player, HashMap<String, Object> param);
+    World generate(long seed, Player player, Map<String, Object> param);
 }

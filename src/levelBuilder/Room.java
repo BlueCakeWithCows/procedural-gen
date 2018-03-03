@@ -1,7 +1,5 @@
 package levelBuilder;
 
-import levelBuilder.ugly.TileRegion;
-
 import java.util.List;
 
 public class Room extends TileRegion {
@@ -19,8 +17,8 @@ public class Room extends TileRegion {
     }
 
     public String toString() {
-        return getTAG() + ": " + getOffsetX() + ", " + getOffsetY() + ", " + getWidth() + ", "
-                       + getHeight();
+        return getTAG() + ": " + getX() + ", " + getY() + ", " + getWidth() + ", "
+                   + getHeight();
     }
 
     public String getTAG() {

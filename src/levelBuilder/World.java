@@ -1,7 +1,6 @@
 package levelBuilder;
 
 import geometry.Point;
-import levelBuilder.ugly.TileRegion;
 import tileEngine.TETile;
 
 import java.util.Arrays;

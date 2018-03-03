@@ -3,16 +3,19 @@ package levelBuilder;
 import geometry.Point;
 import tileEngine.TETile;
 import tileEngine.TileType;
+import tileEngine.Tileset;
 
 /**
  * TODO Player class
  */
 public class Player extends Entity {
+
     public Player(Point position) {
         super(position);
     }
 
     public Player() {
+        this.setTile(Tileset.PLAYER);
 
     }
 

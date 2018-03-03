@@ -1,5 +1,5 @@
 package renderer;
 
 public enum Fonts {
-    ARIAL
+    CHAR, ARIAL
 }

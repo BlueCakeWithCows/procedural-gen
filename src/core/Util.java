@@ -2,8 +2,9 @@ package core;
 
 import geometry.Point;
 import geometry.Rectangle;
-import levelBuilder.ugly.TileRegion;
+import levelBuilder.TileRegion;
 import tileEngine.TETile;
+import tileEngine.TileType;
 import tileEngine.Tileset;
 
 import java.util.ArrayList;
@@ -93,5 +94,100 @@ public class Util {
             }
         }
         return region;
+    }
+
+    public static double getDensity(TileRegion region, TileType type) {
+        List<TETile> tiles = region.getAllTiles();
+        return (double) tiles.stream().filter(obj -> TileType.NOTHING.equals(obj.getType())).count()
+                   / (double) tiles.size();
+    }
+
+    /**
+     * Outlines non-nothing tiles in region.
+     *
+     * @param region   region
+     * @param wallTile tile to outline
+     * @return Modified region
+     */
+    public static TileRegion generateWalls(TileRegion region, TETile wallTile,
+        TETile wallTileFront) {
+        for (int col = 0; col < region.getWidth(); col++) {
+            for (int row = 0; row < region.getHeight(); row++) {
+                if (Tileset.NOTHING.equals(region.getTile(col, row))) {
+                    for (TETile tile : region.getEightAdjacent(col, row)) {
+                        if (!Tileset.NOTHING.equals(tile) && !tile.getType()
+                                                                  .equals(TileType.WALL)) {
+                            wallHelper(wallTileFront, wallTile, region, col, row);
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+        return region;
+    }
+
+    private static void wallHelper(TETile wallTileFront, TETile wallTile, TileRegion region,
+        int col, int row) {
+        if (wallTileFront != null && (region.getTile(col, row - 1) == null
+                                          || region.getTile(col, row - 1).getType()
+                                                 != TileType.WALL)) {
+            region.setTile(col, row, wallTileFront);
+        } else {
+            region.setTile(col, row, wallTile);
+        }
+    }
+
+    public static TETile[][] createEmptyWorld(int width, int height) {
+        TETile[][] world = new TETile[width][height];
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                world[x][y] = Tileset.NOTHING;
+            }
+        }
+        return world;
+    }
+
+
+    public static Point getOffCenter(TileRegion region) {
+        int x1 = region.getWidth();
+        int y1 = region.getHeight();
+        int x2 = 0;
+        int y2 = 0;
+        for (int col = 0; col < region.getWidth(); col++) {
+            for (int row = 0; row < region.getHeight(); row++) {
+                if (region.getTile(col, row) != null
+                        && region.getTile(col, row).getType() != TileType.NOTHING) {
+                    if (col < x1) {
+                        x1 = col;
+                    }
+                    if (col > x2) {
+                        x2 = col;
+                    }
+                    if (row < y1) {
+                        y1 = row;
+                    }
+                    if (row > y2) {
+                        y2 = row;
+                    }
+                }
+            }
+        }
+        int width = x2 - x1;
+        int height = y2 - y1;
+        int shiftX = (region.getWidth() - width - 1) / 2 - x1;
+        int shiftY = (region.getHeight() - height - 1) / 2 - y1;
+        return new Point(shiftX, shiftY);
+    }
+
+    public static void shiftRegion(TileRegion region, int shiftX, int shiftY) {
+        TileRegion tiles = region.getGridForm();
+        region.fill(Tileset.NOTHING);
+        for (int col = 0; col < region.getWidth(); col++) {
+            for (int row = 0; row < region.getHeight(); row++) {
+                region.setTile(col + shiftX, row + shiftY, tiles.getTile(col, row));
+            }
+        }
     }
 }

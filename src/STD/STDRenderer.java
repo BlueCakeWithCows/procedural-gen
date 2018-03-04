@@ -142,9 +142,9 @@ public class STDRenderer implements Renderer {
 
         @Override
         public int compare(DrawTextureCommand o1, DrawTextureCommand o2) {
-//            if (o1.getZ() == o2.getZ()) {
-//                return o1.texture.compareTo(o2.texture);
-//            }
+            if (o1.getZ() == o2.getZ()) {
+                return o1.texture.compareTo(o2.texture);
+            }
             return Integer.compare(o1.getZ(), o2.getZ());
         }
     }

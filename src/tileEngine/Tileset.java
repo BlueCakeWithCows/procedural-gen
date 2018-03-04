@@ -24,6 +24,8 @@ public class Tileset {
     public static final TETile FLOOR = new TETile(TileType.FLOOR, Textures.FLOOR, "floor", 0);
     public static final TETile PLAYER = new TETile(TileType.NOTHING, Textures.PLAYER, "player", 0);
 
+    public static final TETile TORCH = new TETile(TileType.NOTHING, Textures.TORCH, "torch", 0);
+    public static final TETile PORTAL = new TETile(TileType.PORTAL, Textures.PORTAL, "portal", 2);
 }
 
 

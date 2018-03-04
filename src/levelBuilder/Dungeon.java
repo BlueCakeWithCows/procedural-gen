@@ -17,13 +17,13 @@ public class Dungeon {
 
     public World getFloor(int depth, Player player) {
         long floorSeed = Util.cantorPair(seed, depth);
-        return set.generate(Util.cantorPair(seed, depth), player);
+        return set.generate(Util.cantorPair(seed, depth), depth, player);
     }
 
     public World getFloor(Player player) {
         depth++;
         long floorSeed = Util.cantorPair(seed, depth);
-        return set.generate(Util.cantorPair(seed, depth), player);
+        return set.generate(Util.cantorPair(seed, depth), depth, player);
     }
 
     private int getDepth() {

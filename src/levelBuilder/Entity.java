@@ -16,6 +16,7 @@ import java.util.Set;
 public abstract class Entity {
     private Point position;
     private TETile tile = null; //Tileset.FLOWER;
+    private int LOSRadius = 15;
 
     public Entity(Point point) {
         this.position = point;
@@ -64,7 +65,7 @@ public abstract class Entity {
     public Set<IPoint> getLOS(World world) {
         List<Point> edgeTiles = new ArrayList<>();
         Set<IPoint> visibleTiles = new HashSet<>();
-        int radius = 20;
+        int radius = LOSRadius;
         for (int col = -radius; col < radius + 1; col++) {
             edgeTiles.add(Point.newAdd(position, col, radius));
             edgeTiles.add(Point.newAdd(position, col, -radius));
@@ -79,11 +80,19 @@ public abstract class Entity {
                 TETile tile = world.getTile(p.getX(), p.getY());
                 if (tile == null) {break;}
                 visibleTiles.add(p);
-                if (tile.isOpaque() || world.getLightLevel(p.getX(), p.getY()) < 2) {
+                if (tile.isOpaque()) {
                     break;
                 }
             }
         }
         return visibleTiles;
+    }
+
+    public void move(int x, int y) {
+        this.position.add(x, y);
+    }
+
+    public void setLOSRadius(int LOSRadius) {
+        this.LOSRadius = LOSRadius;
     }
 }

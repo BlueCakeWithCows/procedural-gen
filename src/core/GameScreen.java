@@ -12,6 +12,7 @@ import renderer.DrawTextureCommand;
 import renderer.Fonts;
 import renderer.View;
 import tileEngine.TETile;
+import tileEngine.TileType;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class GameScreen implements GameState {
     @Override
     public void show(Game game) {
         game.registerInputHandler(this);
+        genWorld(game);
+    }
+
+    public void genWorld(Game game) {
+        ready = false;
         world = dungeon.getFloor(player);
         camera = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
         camera.center(player.getPosition());
@@ -70,6 +76,9 @@ public class GameScreen implements GameState {
         player.tryMove(c, world);
         camera.boundCenter(player.getPosition(), 0, 0, world.getRegion().getWidth(),
             world.getRegion().getHeight());
+        if (c == 'p' && world.getTile(player.getPosition()).getType() == TileType.PORTAL) {
+            genWorld(game);
+        }
         return true;
     }
 
@@ -89,6 +98,7 @@ public class GameScreen implements GameState {
 
         for (Entity e : world.getEntities()) {
             TETile tile = e.getTile();
+            if (!world.getIsVisible(e.getX(), e.getY())) {continue;}
             DrawTextureCommand cmd =
                 new DrawTextureCommand(tile.getTexture(), e.getX() - camera.getX(),
                     e.getY() - camera.getY(), 1, 1, 255,
@@ -103,7 +113,6 @@ public class GameScreen implements GameState {
         commands.add(
             new DrawTextCommand(Fonts.ARIAL, getEntityType((int) point.getX(), (int) point.getY()),
                 4, game.TOTAL_HEIGHT - 2.8));
-
         cmd = new DrawBatchCommand(commands);
         return cmd;
     }

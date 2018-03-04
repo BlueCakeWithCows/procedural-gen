@@ -7,7 +7,7 @@ public class SimpleGeneratorSet implements GeneratorBag {
     }
 
     @Override
-    public World generate(long l, Player player) {
+    public World generate(long l, int depth, Player player) {
         return null;
     }
 }

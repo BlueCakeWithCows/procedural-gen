@@ -2,6 +2,7 @@ package Core;
 
 import geometry.Point;
 import geometry.Rectangle;
+import levelBuilder.Entity;
 import levelBuilder.TileRegion;
 import tileEngine.TETile;
 import tileEngine.TileType;
@@ -17,6 +18,27 @@ public class Util {
     public static long cantorPair(long seed, long id) {
         long pair = (seed + id) * Long.divideUnsigned(seed + id + 1, 2) + seed;
         return pair;
+    }
+
+    public static ArrayList<Point> populateNodesRandom(Random random, int x1, int y1, int x2,
+        int y2, int nodes, int minSpacing) {
+        int loopFail = 0;
+        int i = 0;
+        ArrayList<Point> points = new ArrayList<>();
+        while (i < nodes) {
+            Point pos =
+                new Point(RandomUtils.uniform(random, x1, x2), RandomUtils.uniform(random, y1, y2));
+            if (!isNear(pos.getX(), pos.getY(), points, minSpacing)) {
+                points.add(pos);
+                i++;
+            }
+            if (loopFail > nodes * 10) {
+                MyLogger.log("Only  " + i + " of " + nodes + " nodes placed.");
+                break;
+            }
+            loopFail++;
+        }
+        return points;
     }
 
     /*
@@ -187,6 +209,12 @@ public class Util {
             for (int row = 0; row < region.getHeight(); row++) {
                 region.setTile(col + shiftX, row + shiftY, tiles.getTile(col, row));
             }
+        }
+    }
+
+    public static void shiftEntities(ArrayList<Entity> entities, int x, int y) {
+        for(Entity e: entities){
+            e.move(x,y);
         }
     }
 }

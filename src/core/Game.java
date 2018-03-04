@@ -16,11 +16,13 @@ import java.util.List;
 
 public class Game {
 
+    public static final boolean RENDER_MAP = false;
+    public static double SCALE = 2d;
 
-    public static final int TOTAL_WIDTH = 60;
-    public static final int TOTAL_HEIGHT = 45;
-    public static final int WIDTH = 60;
-    public static final int HEIGHT = 40;
+    public static final int TOTAL_WIDTH = 25;
+    public static final int TOTAL_HEIGHT = 30;
+    public static final int WIDTH = 25;
+    public static final int HEIGHT = 25;
     private static final double MAX_FPS = 60;
     private List<InputHandler> handlerList;
     private Deque<Character> inputDeque;
@@ -119,14 +121,14 @@ public class Game {
 
         @Override
         public void run() {
-            renderer.initialize(TOTAL_WIDTH, TOTAL_HEIGHT, 1);
+            renderer.initialize(TOTAL_WIDTH, TOTAL_HEIGHT, SCALE);
             long lastTime = System.currentTimeMillis();
             long currentTime = System.currentTimeMillis();
             long dt = 0;
             long msPerFrame = (long) (1000.0 * 1.0 / MAX_FPS);
             View view = new View(WIDTH, HEIGHT);
 
-            while (true) {
+            while (true && !gameOver) {
                 //long start = System.nanoTime();
                 currentTime = System.currentTimeMillis();
                 dt = currentTime - lastTime;

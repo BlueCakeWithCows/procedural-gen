@@ -15,6 +15,7 @@ import java.util.Set;
 public class Player extends Entity implements LightSource {
 
     private Set<IPoint> lastSeen = new HashSet<>();
+    private volatile int lightPoints;
 
     public Player(Point position) {
         super(position);
@@ -22,14 +23,17 @@ public class Player extends Entity implements LightSource {
 
     public Player() {
         this.setTile(Tileset.PLAYER);
-
+        this.setLOSRadius(30);
+        lightPoints = 100;
     }
 
     @Override
     public void update(World world, double dt) {
         if (dt == 0) {
             updateVision(world);
+            return;
         }
+        lightPoints -= 1;
     }
 
     public boolean[] getPossibleMoves(World world) {
@@ -58,7 +62,7 @@ public class Player extends Entity implements LightSource {
         if (c == 'd') {newPosition.add(1, 0);}
         if (!newPosition.equals(this.getPosition())) {
             TETile target = world.getTile(newPosition.getX(), newPosition.getY());
-            if (target.getType().equals(TileType.FLOOR)) {
+            if (!target.getType().isSolid()) {
                 world.getPlayer().setPosition(newPosition);
                 updateVision(world);
                 return true;
@@ -82,6 +86,15 @@ public class Player extends Entity implements LightSource {
 
     @Override
     public int getLightValue() {
-        return 12;
+        return lightPoints / 10;
+    }
+
+    public void addLightPoints(int i) {
+        this.lightPoints = Math.max(0, lightPoints);
+        this.lightPoints += i;
+    }
+
+    public void setLightPoints(int i) {
+        this.lightPoints = i;
     }
 }

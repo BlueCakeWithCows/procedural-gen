@@ -1,5 +1,6 @@
 package levelBuilder;
 
+import Core.Game;
 import geometry.Point;
 import tileEngine.TETile;
 
@@ -21,6 +22,7 @@ public class World {
     private byte[][] fogLightMap;
     private TETile[][] tiles;
     private int[][] totalLightLevel = null;
+    private ArrayList<Entity> destroyEntityList;
 
     public World(TETile[][] tiles, List<Entity> entities, Player player) {
         this(tiles, entities, player, new int[tiles.length][tiles[0].length]);
@@ -29,7 +31,7 @@ public class World {
                 getStaticLightMap()[col][row] = 7;
             }
         }
-        this.recalculateStaticLightMap();
+        if (!Game.RENDER_MAP) { this.recalculateStaticLightMap(); }
         this.recalculateDynamicLightMap();
         this.calculateTotalLightLevel();
     }
@@ -42,6 +44,7 @@ public class World {
         this.setDynamicLightMap(new int[getRegion().getWidth()][getRegion().getHeight()]);
         this.setStaticLightMap(staticLightMap);
         this.fogLightMap = (new byte[getRegion().getWidth()][getRegion().getHeight()]);
+        this.destroyEntityList = new ArrayList<>();
         for (int row = 0; row < getRegion().getHeight(); row++) {
             for (int col = 0; col < getRegion().getWidth(); col++) {
                 getFogLightMap()[col][row] = 0;
@@ -105,13 +108,12 @@ public class World {
         for (Entity e : entities) {
             e.update(this, dt);
         }
+        entities.removeAll(destroyEntityList);
+        destroyEntityList.clear();
         this.recalculateDynamicLightMap();
         this.calculateTotalLightLevel();
     }
 
-    public void draw() {
-
-    }
 
     public int getLightLevel(int i, int i1) {
         return getTotalLightLevel()[i][i1];
@@ -247,4 +249,11 @@ public class World {
         return ray;
     }
 
+    public void destroy(Entity e) {
+        this.destroyEntityList.add(e);
+    }
+
+    public TETile getTile(Point position) {
+        return getTile(position.getX(), position.getY());
+    }
 }

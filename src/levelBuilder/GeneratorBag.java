@@ -2,6 +2,6 @@ package levelBuilder;
 
 public interface GeneratorBag {
 
-    World generate(long l, Player player);
+    World generate(long l, int depth, Player player);
 
 }

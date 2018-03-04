@@ -1,6 +1,7 @@
 package levelBuilder.generators;
 
 import Core.MailDistanceSort;
+import Core.RandomUtils;
 import Core.Util;
 import geometry.Point;
 import geometry.Rectangle;
@@ -8,9 +9,11 @@ import levelBuilder.Entity;
 import levelBuilder.Generator;
 import levelBuilder.Player;
 import levelBuilder.TileRegion;
+import levelBuilder.Torch;
 import levelBuilder.World;
 import levelBuilder.WorldGenerator;
 import tileEngine.TETile;
+import tileEngine.Tileset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +75,9 @@ public class DungeonGenerator implements Generator {
         ArrayList<Entity> entities = new ArrayList<Entity>();
         double currentDensity;
         do {
-            List<Point> nodes =
-                Util.getRandomPointsInRange(random, 3, 3, width - 3, height - 3, nodeDensity,
-                    nodeSpacing);
+            entities.clear();
+            List<Point> nodes = Util.populateNodesRandom(random, 3, 3, width - 3, height - 3,
+                (int) (nodeDensity * width * height), nodeSpacing);
             List<Rectangle> rectangles =
                 Util.getRandomRectanglesAround(random, nodes, minSize, maxSize, 1, 1, width - 1,
                     height - 1);
@@ -93,7 +96,6 @@ public class DungeonGenerator implements Generator {
 
             Util.prune(floorTile, nodes.get(uniform(random, 0, nodes.size())), region);
             Util.generateWalls(region, wallTile1, wallTile2);
-            Point delta = Util.getOffCenter(region);
             for (Point p : nodes) {
                 player.setPositionRef(new Point(p));
                 if (region.getTile(p.getX(), p.getY()).getType() == FLOOR) {
@@ -101,11 +103,24 @@ public class DungeonGenerator implements Generator {
                 }
             }
 
-            Util.shiftRegion(region, delta.getX(), delta.getY());
-            player.getPosition().add(delta);
-            currentDensity = 1d - Util.getDensity(region, NOTHING);
-            entities.clear();
+
+            for (Point p : nodes) {
+                if (RandomUtils.chance(random, .2f)) {continue;}
+                region.setTile(p.getX(), p.getY(), Tileset.PORTAL);
+            }
+
+            for (Point p : nodes) {
+                if (RandomUtils.chance(random, .2f)) {continue;}
+                if (region.getTile(p.getX(), p.getY()).getType() == FLOOR) {
+                    entities.add(new Torch(new Point(p)));
+                }
+            }
+
+            Point delta = Util.getOffCenter(region);
             entities.add(player);
+            Util.shiftRegion(region, delta.getX(), delta.getY());
+            Util.shiftEntities(entities, delta.getX(), delta.getY());
+            currentDensity = 1d - Util.getDensity(region, NOTHING);
         } while (currentDensity < minDensity || currentDensity > maxDensity);
         World world = new World(grid, entities, player);
         return world;

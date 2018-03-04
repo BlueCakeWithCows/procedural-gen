@@ -54,7 +54,7 @@ public class RandomSeedMenu implements GameState {
             double hW = view.getWidth() / 2;
             double hH = view.getHeight() / 2;
             List<DrawCommand> commands = new ArrayList<>(4);
-            Fonts font = Fonts.ARIAL;
+            Fonts font = Fonts.MONACO;
             commands.add(new DrawTextCommand(font, "Input Seed", hW, hH * 1.2));
             String outSeed = seed.toString();
             if (outSeed.length() == 0) {

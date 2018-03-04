@@ -108,10 +108,10 @@ public class GameScreen implements GameState {
 
         Point2D point = this.game.getInput().pollMouse();
         commands.add(
-            new DrawTextCommand(Fonts.ARIAL, getTileType((int) point.getX(), (int) point.getY()), 4,
+            new DrawTextCommand(Fonts.MONACO, getTileType((int) point.getX(), (int) point.getY()), 4,
                 game.TOTAL_HEIGHT - 1.2));
         commands.add(
-            new DrawTextCommand(Fonts.ARIAL, getEntityType((int) point.getX(), (int) point.getY()),
+            new DrawTextCommand(Fonts.MONACO, getEntityType((int) point.getX(), (int) point.getY()),
                 4, game.TOTAL_HEIGHT - 2.8));
         cmd = new DrawBatchCommand(commands);
         return cmd;

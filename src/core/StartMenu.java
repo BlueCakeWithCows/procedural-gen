@@ -49,7 +49,7 @@ public class StartMenu implements GameState, InputHandler {
             double hW = view.getWidth() / 2;
             double hH = view.getHeight() / 2;
             List<DrawCommand> commands = new ArrayList<>(4);
-            Fonts font = Fonts.ARIAL;
+            Fonts font = Fonts.MONACO;
             commands.add(new DrawTextCommand(font, "Castle Adventure", hW, hH));
             commands.add(new DrawTextCommand(font, "New Game (N)", hW, view.getHeight() / 9 * 5));
             commands.add(new DrawTextCommand(font, "Load Game (L)", hW, view.getHeight() / 9 * 4));

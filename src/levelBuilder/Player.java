@@ -103,7 +103,7 @@ public class Player extends Entity implements LightSource {
     }
 
     private void reduceHealth() {
-        health -= 1;
+        health -= 5;
     }
 
     public int getHealth() {

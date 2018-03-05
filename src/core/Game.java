@@ -17,7 +17,7 @@ import java.util.List;
 public class Game {
 
     public static final boolean RENDER_MAP = false;
-    public static double SCALE = 2d;
+    public static double SCALE = 1d;
 
     public static final int TOTAL_WIDTH = 25;
     public static final int TOTAL_HEIGHT = 30;

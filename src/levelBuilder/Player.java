@@ -16,6 +16,7 @@ public class Player extends Entity implements LightSource {
 
     private Set<IPoint> lastSeen = new HashSet<>();
     private volatile int lightPoints;
+    private int health;
 
     public Player(Point position) {
         super(position);
@@ -67,8 +68,8 @@ public class Player extends Entity implements LightSource {
                 updateVision(world);
                 return true;
             }
+            reduceHealth();
         }
-
         return false;
     }
 
@@ -97,4 +98,13 @@ public class Player extends Entity implements LightSource {
     public void setLightPoints(int i) {
         this.lightPoints = i;
     }
+
+    private void reduceHealth() {
+        health -= 1;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
 }

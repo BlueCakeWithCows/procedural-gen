@@ -26,8 +26,8 @@ public abstract class IPoint {
         return mailDistance(getX(), getY(), point[0], point[1]);
     }
 
-    public int mailDistance(IPoint IPoint) {
-        return mailDistance(getX(), getY(), IPoint.getX(), getY());
+    public int mailDistance(IPoint iPoint) {
+        return mailDistance(getX(), getY(), iPoint.getX(),iPoint.getY());
     }
 
     public int distanceSq(int x, int y) {

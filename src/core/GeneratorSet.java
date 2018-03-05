@@ -4,10 +4,8 @@ import levelBuilder.Generator;
 import levelBuilder.GeneratorBag;
 import levelBuilder.Player;
 import levelBuilder.World;
-import levelBuilder.generators.DiagonalRoom;
-import levelBuilder.generators.QuantumDrunkard;
-import levelBuilder.generators.DungeonGenerator;
-import levelBuilder.generators.MazeGenerator;
+import levelBuilder.generators.*;
+
 import tileEngine.Tileset;
 
 import java.util.Map;
@@ -20,19 +18,31 @@ public class GeneratorSet {
         public World generate(long l, int depth, Player player) {
             switch (depth) {
                 case 1:
-                    return dungeonGenerator1.generate(l, player,
+                    return sparseGenerator1.generate(l, player,
                         Map.ofEntries(entry("width", 100), entry("height", 100),
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
 
                 case 2:
-                    return quantumWalk.generate(l, player,
-                            Map.ofEntries(entry("width", 100), entry("height", 100),
-                                    entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
-                                    entry("wall_tile2", Tileset.WALL2)));
+                    return dungeonGenerator1.generate(l, player,
+                        Map.ofEntries(entry("width", 100), entry("height", 100),
+                            entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
+                            entry("wall_tile2", Tileset.WALL2)));
 
                 case 3:
-                    return diagonal.generate(l, player, Map.ofEntries(entry("width", 100), entry("height", 100),
+                    return caveGenerator1.generate(l, player,
+                        Map.ofEntries(entry("width", 100), entry("height", 100),
+                            entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
+                            entry("wall_tile2", Tileset.WALL2)));
+
+                case 4:
+                    return quantumWalk.generate(l, player,
+                        Map.ofEntries(entry("width", 100), entry("height", 100),
+                            entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
+                            entry("wall_tile2", Tileset.WALL2)));
+                case 5:
+                    return diagonal.generate(l, player,
+                        Map.ofEntries(entry("width", 100), entry("height", 100),
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
 
@@ -42,17 +52,18 @@ public class GeneratorSet {
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
             }
-
-//            return dungeonGenerator1.generate(l, player,
-//                Map.ofEntries(entry("width", 100), entry("height", 100),
-//                    entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
-//                    entry("wall_tile2", Tileset.WALL2)));
         }
     };
 
     private static final Generator dungeonGenerator1 =
-        new DungeonGenerator("Default Generator", .3, 1, .01, 12, 2.5, 4, 3, 10,
-            new int[]{100, 100}, 50, 50);
+        new DungeonGenerator("Default Generator", .3, .7, .005, 14, 2.5, 3, 3, 10,
+            new int[]{100, 100}, 100, 100);
+
+    private static final Generator sparseGenerator1 =
+        new DungeonGenerator("Sparse Generator", .2, .5, .005, 20, 1.5, 5, 5, 10,
+            new int[]{100, 100}, 100, 100);
+    private static final Generator caveGenerator1 =
+        new CavernGenerator("Cave Generator", 100, 100, .01, 1, 3);
 
     private static final Generator mazeGenerator1 =
         new MazeGenerator("Maze Generator", 100, 100);

@@ -16,7 +16,7 @@ public class Torch extends Entity implements LightSource {
     public void update(World world, double dt) {
         if (world.getPlayer().getPosition().equals(this.getPosition())) {
             world.destroy(this);
-            world.getPlayer().setLightPoints(100);
+            world.getPlayer().setLightPoints(110);
         }
     }
 

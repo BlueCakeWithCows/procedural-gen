@@ -128,7 +128,7 @@ public class TileRegion {
         return positions;
     }
 
-    private TETile getTile(Point adj) {
+    public TETile getTile(Point adj) {
         return getTile(adj.getX(), adj.getY());
     }
 

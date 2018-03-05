@@ -165,6 +165,7 @@ public class MikaelaGenerator implements Generator {
                 }
             }
         }
+        Util.generateWalls(region, WALL, WALL);
     }
 
     private Point getRandomNearNode(Random random, int nearestOf, Point start, List<Point> nodes) {

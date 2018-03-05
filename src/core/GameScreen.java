@@ -74,6 +74,9 @@ public class GameScreen implements GameState {
     @Override
     public boolean doInput(char c) {
         player.tryMove(c, world);
+        if (player.getHealth() <= 0) {
+            game.setGameOver(true);
+        }
         camera.boundCenter(player.getPosition(), 0, 0, world.getRegion().getWidth(),
             world.getRegion().getHeight());
         if (c == 'p' && world.getTile(player.getPosition()).getType() == TileType.PORTAL) {
@@ -113,6 +116,9 @@ public class GameScreen implements GameState {
         commands.add(
             new DrawTextCommand(Fonts.MONACO, getEntityType((int) point.getX(), (int) point.getY()),
                 4, game.TOTAL_HEIGHT - 2.8));
+        commands.add(
+                new DrawTextCommand(Fonts.MONACO, player.getHealth() + "% health",
+                        game.TOTAL_WIDTH - 7, game.TOTAL_HEIGHT - 1.2));
         cmd = new DrawBatchCommand(commands);
         return cmd;
     }

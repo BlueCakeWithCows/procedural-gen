@@ -26,6 +26,7 @@ public class Player extends Entity implements LightSource {
         this.setTile(Tileset.PLAYER);
         this.setLOSRadius(30);
         lightPoints = 100;
+        health = 100;
     }
 
     @Override

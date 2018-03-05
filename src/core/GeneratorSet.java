@@ -4,9 +4,9 @@ import levelBuilder.Generator;
 import levelBuilder.GeneratorBag;
 import levelBuilder.Player;
 import levelBuilder.World;
-import levelBuilder.generators.QuantumDrunkard;
 import levelBuilder.generators.DungeonGenerator;
 import levelBuilder.generators.MikaelaGenerator;
+import levelBuilder.generators.QuantumDrunkard;
 import tileEngine.Tileset;
 
 import java.util.Map;
@@ -18,16 +18,16 @@ public class GeneratorSet {
         @Override
         public World generate(long l, int depth, Player player) {
             switch (depth) {
-                case 1:
+                case 3:
                     return quantumWalk.generate(l, player,
                         Map.ofEntries(entry("width", 100), entry("height", 100),
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
                 case 2:
-                    break;
-                //                    return mazeGenerator1.generate(l, player, Map.ofEntries(entry("width", 100), entry("height", 100),
-//                            entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
-//                            entry("wall_tile2", Tileset.WALL2)));
+                    return mazeGenerator1.generate(l, player,
+                        Map.ofEntries(entry("width", 100), entry("height", 100),
+                            entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
+                            entry("wall_tile2", Tileset.WALL2)));
 
                 default:
                     return dungeonGenerator1.generate(l, player,
@@ -35,11 +35,6 @@ public class GeneratorSet {
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
             }
-
-            return dungeonGenerator1.generate(l, player,
-                Map.ofEntries(entry("width", 100), entry("height", 100),
-                    entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
-                    entry("wall_tile2", Tileset.WALL2)));
         }
     };
 

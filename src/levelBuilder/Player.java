@@ -36,6 +36,7 @@ public class Player extends Entity implements LightSource {
             return;
         }
         lightPoints -= 1;
+        updateVision(world);
     }
 
     public boolean[] getPossibleMoves(World world) {
@@ -66,7 +67,6 @@ public class Player extends Entity implements LightSource {
             TETile target = world.getTile(newPosition.getX(), newPosition.getY());
             if (!target.getType().isSolid()) {
                 world.getPlayer().setPosition(newPosition);
-                updateVision(world);
                 return true;
             }
             reduceHealth();
@@ -81,14 +81,16 @@ public class Player extends Entity implements LightSource {
             world.setVision(p.getX(), p.getY(), false);
         }
         for (IPoint p : LOS) {
-            world.setVision(p.getX(), p.getY(), true);
+            if (world.getLightLevel(p.getX(), p.getY()) > 0) {
+                world.setVision(p.getX(), p.getY(), true);
+            }
         }
         this.lastSeen = LOS;
     }
 
     @Override
     public int getLightValue() {
-        return lightPoints / 10;
+        return Math.max(1, lightPoints / 10);
     }
 
     public void addLightPoints(int i) {

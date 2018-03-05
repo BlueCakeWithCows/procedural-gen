@@ -1,5 +1,4 @@
 package Core;
-
 import STD.STDInput;
 import STD.STDRenderer;
 import inputString.BlankRenderer;

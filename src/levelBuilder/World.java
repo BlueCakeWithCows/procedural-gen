@@ -105,13 +105,13 @@ public class World {
     }
 
     public void update(double dt) {
-        for (Entity e : entities) {
-            e.update(this, dt);
-        }
         entities.removeAll(destroyEntityList);
         destroyEntityList.clear();
         this.recalculateDynamicLightMap();
         this.calculateTotalLightLevel();
+        for (Entity e : entities) {
+            e.update(this, dt);
+        }
     }
 
 

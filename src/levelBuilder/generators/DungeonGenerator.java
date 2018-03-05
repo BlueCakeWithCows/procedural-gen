@@ -105,16 +105,19 @@ public class DungeonGenerator implements Generator {
 
 
             for (Point p : nodes) {
-                if (RandomUtils.chance(random, .2f)) {continue;}
+                if (RandomUtils.chance(random, .92f)) {continue;}
                 region.setTile(p.getX(), p.getY(), Tileset.PORTAL);
             }
 
             for (Point p : nodes) {
-                if (RandomUtils.chance(random, .2f)) {continue;}
+                if (RandomUtils.chance(random, .76f)) {continue;}
                 if (region.getTile(p.getX(), p.getY()).getType() == FLOOR) {
                     entities.add(new Torch(new Point(p)));
                 }
             }
+
+
+
 
             Point delta = Util.getOffCenter(region);
             entities.add(player);

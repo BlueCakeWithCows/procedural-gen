@@ -2,8 +2,9 @@ package tileEngine;
 
 import renderer.Textures;
 
+
 public class TETile {
-    private final TileType type;
+    private final tileEngine.TileType type;
     private final String description;
     private final Textures texture;
     private final int naturalLightLevel;

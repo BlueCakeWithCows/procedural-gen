@@ -11,15 +11,15 @@ public class DrawBatchCommand implements DrawCommand {
     }
 
     public List<DrawCommand> unpack() {
-        List<DrawCommand> commands = new ArrayList<>();
+        List<DrawCommand> drawCommands = new ArrayList<>();
         for (DrawCommand cmd : this.commands) {
             if (cmd instanceof DrawBatchCommand) {
-                commands.addAll(((DrawBatchCommand) cmd).unpack());
+                drawCommands.addAll(((DrawBatchCommand) cmd).unpack());
             } else {
-                commands.add(cmd);
+                drawCommands.add(cmd);
             }
         }
-        return commands;
+        return drawCommands;
     }
 
     public List<DrawCommand> getCommands() {

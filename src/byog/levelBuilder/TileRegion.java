@@ -47,26 +47,26 @@ public class TileRegion {
         return region;
     }
 
-    public void setTile(int x, int y, TETile tile) {
-        if (isValid(x, y)) {
-            getGrid()[x + getX()][y + getY()] = tile;
+    public void setTile(int x1, int y1, TETile tile) {
+        if (isValid(x1, y1)) {
+            getGrid()[x1 + getX()][y1 + getY()] = tile;
         }
     }
 
-    public TETile getTile(int x, int y) {
-        if (isValid(x, y)) {
-            return getGrid()[x + getX()][y + getY()];
+    public TETile getTile(int x1, int y1) {
+        if (isValid(x1, y1)) {
+            return getGrid()[x1 + getX()][y1 + getY()];
         }
         return null;
     }
 
-    public boolean isValid(int x, int y) {
-        if ((x < 0 || x >= getWidth() || y < 0 || y >= getHeight())) {
+    public boolean isValid(int x1, int y1) {
+        if ((x1 < 0 || x1 >= getWidth() || y1 < 0 || y1 >= getHeight())) {
             return false;
         }
-        x += getX();
-        y += getY();
-        if ((x < 0 || x >= grid.length || y < 0 || y >= grid[0].length)) {
+        x1 += getX();
+        y1 += getY();
+        if ((x1 < 0 || x1 >= grid.length || y1 < 0 || y1 >= grid[0].length)) {
             return false;
         }
         return true;

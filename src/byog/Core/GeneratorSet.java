@@ -16,11 +16,9 @@ import static java.util.Map.entry;
 
 public class GeneratorSet {
     private static Generator dungeonGenerator1 =
-        new DungeonGenerator("Default Generator", .3, .7, .005, 14, 2.5, 3, 3, 10,
-            new int[]{100, 100}, 100, 100);
+        new DungeonGenerator("Default Generator", .3, .7, .005, 14, 2.5,  3, 10);
     private static Generator sparseGenerator1 =
-        new DungeonGenerator("Sparse Generator", .2, .5, .005, 20, 1.5, 5, 5, 10,
-            new int[]{100, 100}, 100, 100);
+        new DungeonGenerator("Sparse Generator", .2, .5, .005, 20, 1.5, 5, 10);
     private static Generator caveGenerator1 =
         new CavernGenerator("Cave Generator", 100, 100, .01, 1, 3);
     private static Generator quantumWalk = new QuantumDrunkard("Quantum Generator", 100, 100);

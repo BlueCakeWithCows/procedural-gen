@@ -102,6 +102,10 @@ public class Player extends Entity implements LightSource {
         this.lightPoints = i;
     }
 
+    public int getLightPoints() {
+        return this.lightPoints;
+    }
+
     private void reduceHealth() {
         health -= 5;
     }

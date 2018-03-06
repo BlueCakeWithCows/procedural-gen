@@ -119,6 +119,9 @@ public class GameScreen implements GameState {
         commands.add(
                 new DrawTextCommand(Fonts.MONACO, player.getHealth() + "% health",
                         game.TOTAL_WIDTH - 7, game.TOTAL_HEIGHT - 1.2));
+        commands.add(
+                new DrawTextCommand(Fonts.MONACO, player.getLightValue() + "0% light",
+                        game.TOTAL_WIDTH - 7, game.TOTAL_HEIGHT - 2.8));
         cmd = new DrawBatchCommand(commands);
         return cmd;
     }

@@ -4,9 +4,6 @@ import geometry.Point;
 import tileEngine.Tileset;
 
 public class Torch extends Entity implements LightSource {
-
-
-
     public Torch(Point p) {
         super(p);
         this.setTile(Tileset.TORCH);
@@ -22,7 +19,7 @@ public class Torch extends Entity implements LightSource {
 
     @Override
     public Entity getCopy() {
-        throw new RuntimeException("Fuck off: In Torch");
+        throw new RuntimeException("In Torch");
     }
 
     @Override

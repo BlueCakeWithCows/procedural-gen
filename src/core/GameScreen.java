@@ -76,13 +76,13 @@ public class GameScreen implements GameState {
         player.tryMove(c, world);
         if (player.getHealth() <= 0) {
             game.setWonGameStatus(false);
-            game.setGameState(new EndWindow(false));
+            game.setGameState(new EndWindow(game, false));
         }
         camera.boundCenter(player.getPosition(), 0, 0, world.getRegion().getWidth(),
             world.getRegion().getHeight());
         if (c == 'p' && world.getTile(player.getPosition()).getType() == TileType.PORTAL) {
             if(dungeon.getDepth() > 5) {
-                game.setGameState(new EndWindow(true));
+                game.setGameState(new EndWindow(game, true));
             }else {
                 genWorld(game);
             }

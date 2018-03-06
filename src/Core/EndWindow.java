@@ -8,9 +8,11 @@ import java.util.List;
 public class EndWindow implements GameState {
     private DrawBatchCommand endCachedDrawBatch;
     private boolean wonGame;
+    private Game game;
 
-    public EndWindow(boolean wonGame) {
+    public EndWindow(Game game, boolean wonGame) {
         this.wonGame = wonGame;
+        this.game = game;
     }
 
     @Override
@@ -45,11 +47,13 @@ public class EndWindow implements GameState {
             Fonts font = Fonts.MONACO;
             if (!wonGame) {
                 commands.add(new DrawTextCommand(font, "Game Over", hW, view.getHeight() / 9 * 7));
-                commands.add(new DrawTextCommand(font, "You ran into too many walls!", hW, hH / 9 * 5));
+                commands.add(new DrawTextCommand(font, "You ran into too many walls!", hW, hH / 9 * 6));
+                commands.add(new DrawTextCommand(font, "Press N to start a new game.", hW, hH / 9 * 4));
             }
             else {
                 commands.add(new DrawTextCommand(font, "Congratulations", hW, view.getHeight() / 9 * 7));
-                commands.add(new DrawTextCommand(font, "You successfully exited the dark rooms!", hW, hH / 9 * 5));
+                commands.add(new DrawTextCommand(font, "You successfully exited the dark rooms!", hW, hH / 9 * 6));
+                commands.add(new DrawTextCommand(font, "Press N to start a new game.", hW, hH / 9 * 4));
             }
         return new DrawBatchCommand(commands);
 
@@ -57,6 +61,9 @@ public class EndWindow implements GameState {
 
     @Override
     public boolean doInput(char c) {
-        return false;
+        if (c == 'n') {
+            game.setGameState(new StartMenu(game));
+        }
+        return true;
     }
 }

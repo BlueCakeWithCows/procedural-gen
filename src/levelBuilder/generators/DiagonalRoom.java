@@ -2,8 +2,13 @@ package levelBuilder.generators;
 
 import Core.Util;
 import geometry.Point;
-import levelBuilder.*;
+import levelBuilder.Entity;
+import levelBuilder.Generator;
+import levelBuilder.Player;
+import levelBuilder.TileRegion;
+import levelBuilder.World;
 import tileEngine.TETile;
+import tileEngine.Tileset;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -49,20 +54,22 @@ public class DiagonalRoom implements Generator {
                     {
                         if (x % 3 == 0 && y % 3 == 0) {
                             region.setTile(x, y, wallTile1);
-                        }
-                        else if (x % 3 == 1 && y % 3 == 1) {
-                            region.setTile(x, y, wallTile1);
-                        }
-                        else if (x % 3 == 2 && y % 3 == 2) {
-                            region.setTile(x, y, wallTile1);
-                        }
-                        else {
-                            region.setTile(x, y, floorTile);
+                        } else {
+                            if (x % 3 == 1 && y % 3 == 1) {
+                                region.setTile(x, y, wallTile1);
+                            } else {
+                                if (x % 3 == 2 && y % 3 == 2) {
+                                    region.setTile(x, y, wallTile1);
+                                } else {
+                                    region.setTile(x, y, floorTile);
+                                }
+                            }
                         }
                     }
                 }
             }
             Util.generateWalls(region, wallTile1, wallTile2);
+            region.setTile((int) (width * .9), (int) (height * .9), Tileset.PORTAL);
             player.setPositionRef(new Point(width / 2, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);

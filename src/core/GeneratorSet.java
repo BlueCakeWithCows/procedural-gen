@@ -35,12 +35,12 @@ public class GeneratorSet {
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
 
-                case 4:
+                case 5:
                     return quantumWalk.generate(l, player,
                         Map.ofEntries(entry("width", 100), entry("height", 100),
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
-                case 5:
+                case 4:
                     return diagonal.generate(l, player,
                         Map.ofEntries(entry("width", 100), entry("height", 100),
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),

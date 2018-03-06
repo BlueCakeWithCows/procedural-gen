@@ -1,7 +1,7 @@
 package byog.renderer;
 
 public enum Textures {
-    BASIC_WALL('#'), FLOOR('.'), NOTHING(' '), PLAYER('P'), BASIC_WALL2('#'), TORCH('t'),
+    BASIC_WALL('#'), FLOOR('.'), NOTHING(' '), PLAYER('❀'), BASIC_WALL2('#'), TORCH('t'),
     PORTAL('O');
 
     private char aChar;

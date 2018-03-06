@@ -8,6 +8,7 @@ import levelBuilder.Player;
 import levelBuilder.TileRegion;
 import levelBuilder.World;
 import tileEngine.TETile;
+import tileEngine.Tileset;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -90,6 +91,7 @@ public class QuantumDrunkard implements Generator {
                 }
             }
             Util.generateWalls(region, wallTile1, wallTile2);
+            region.setTile((int) (width * .9), (int) (height * .9), Tileset.PORTAL);
             player.setPositionRef(new Point(width / 2, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);

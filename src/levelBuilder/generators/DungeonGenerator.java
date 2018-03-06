@@ -105,7 +105,7 @@ public class DungeonGenerator implements Generator {
 
 
             for (Point p : nodes) {
-                if (RandomUtils.chance(random, .92f)) {continue;}
+                if (RandomUtils.chance(random, .90f)) {continue;}
                 region.setTile(p.getX(), p.getY(), Tileset.PORTAL);
             }
 

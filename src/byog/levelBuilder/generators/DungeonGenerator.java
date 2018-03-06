@@ -24,6 +24,8 @@ import static byog.tileEngine.TileType.FLOOR;
 import static byog.tileEngine.TileType.NOTHING;
 
 public class DungeonGenerator implements Generator {
+
+
     private final double minDensity, maxDensity;
     private final double nodeDensity;
     private final double hallwayDensity;

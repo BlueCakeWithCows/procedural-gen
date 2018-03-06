@@ -36,8 +36,8 @@ public class DiagonalRoom implements Generator {
         TETile[][] grid;
         TileRegion region;
         Random random = new Random(seed);
-        int width1 = (Integer) param.getOrDefault("width", this.width);
-        int height1 = (Integer) param.getOrDefault("height", this.height);
+        int width = (Integer) param.getOrDefault("width", this.width);
+        int height = (Integer) param.getOrDefault("height", this.height);
         TETile floorTile = (TETile) param.get("floor_tile");
         TETile wallTile1 = (TETile) param.get("wall_tile1");
         TETile wallTile2 = (TETile) param.get("wall_tile2");
@@ -46,11 +46,11 @@ public class DiagonalRoom implements Generator {
         double currentDensity;
         do {
             entities.clear();
-            grid = Util.createEmptyWorld(width1, height1);
+            grid = Util.createEmptyWorld(width, height);
             region = new TileRegion(grid);
 
-            for (int x = 1; x <= width1; x++) {
-                for (int y = 1; y <= height1; y++) {
+            for (int x = 1; x <= width; x++) {
+                for (int y = 1; y <= height; y++) {
                     {
                         if (x % 3 == 0 && y % 3 == 0) {
                             region.setTile(x, y, wallTile1);
@@ -69,8 +69,8 @@ public class DiagonalRoom implements Generator {
                 }
             }
             Util.generateWalls(region, wallTile1, wallTile2);
-            region.setTile((int) (width1 * .9), (int) (height1 * .9), Tileset.PORTAL);
-            player.setPositionRef(new Point(width1 / 2 - 1, height1 / 2));
+            region.setTile((int) (width * .9), (int) (height * .9), Tileset.PORTAL);
+            player.setPositionRef(new Point(width / 2 - 1, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);
             Util.shiftRegion(region, delta.getX(), delta.getY());

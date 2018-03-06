@@ -4,8 +4,11 @@ import levelBuilder.Generator;
 import levelBuilder.GeneratorBag;
 import levelBuilder.Player;
 import levelBuilder.World;
-import levelBuilder.generators.*;
 
+import levelBuilder.generators.CavernGenerator;
+import levelBuilder.generators.DiagonalRoom;
+import levelBuilder.generators.DungeonGenerator;
+import levelBuilder.generators.QuantumDrunkard;
 import tileEngine.Tileset;
 
 import java.util.Map;
@@ -57,18 +60,19 @@ public class GeneratorSet {
         }
     };
 
-    private static final Generator dungeonGenerator1 =
+    private static Generator dungeonGenerator1 =
         new DungeonGenerator("Default Generator", .3, .7, .005, 14, 2.5, 3, 3, 10,
             new int[]{100, 100}, 100, 100);
 
-    private static final Generator sparseGenerator1 =
+    private static Generator sparseGenerator1 =
         new DungeonGenerator("Sparse Generator", .2, .5, .005, 20, 1.5, 5, 5, 10,
             new int[]{100, 100}, 100, 100);
-    private static final Generator caveGenerator1 =
+
+    private static Generator caveGenerator1 =
         new CavernGenerator("Cave Generator", 100, 100, .01, 1, 3);
 
-    private static final Generator quantumWalk = new QuantumDrunkard("Quantum Generator", 100, 100);
+    private static Generator quantumWalk = new QuantumDrunkard("Quantum Generator", 100, 100);
 
-    private static final Generator diagonal = new DiagonalRoom("Diagonal Room Generator", 100, 100);
+    private static Generator diagonal = new DiagonalRoom("Diagonal Room Generator", 100, 100);
 
 }

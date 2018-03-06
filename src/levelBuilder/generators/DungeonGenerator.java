@@ -39,12 +39,12 @@ public class DungeonGenerator implements Generator {
     private final int width, height;
 
     public DungeonGenerator(String label, double minDensity, double maxDensity, double nodeDensity,
-        int node_spacing, double hallwayDensity, int hallwayNodeDistance, int minSize, int maxSize,
+        int nodeSpacing, double hallwayDensity, int hallwayNodeDistance, int minSize, int maxSize,
         int[] roomFrequencies, int width, int height) {
         this.minDensity = minDensity;
         this.maxDensity = maxDensity;
         this.nodeDensity = nodeDensity;
-        this.nodeSpacing = node_spacing;
+        this.nodeSpacing = nodeSpacing;
         this.hallwayDensity = hallwayDensity;
         this.hallwayNodeDistance = hallwayNodeDistance;
         this.minSize = minSize;
@@ -66,8 +66,8 @@ public class DungeonGenerator implements Generator {
     public World generate(long seed, Player player, Map<String, Object> param) {
         TETile[][] grid;
         Random random = new Random(seed);
-        int width = (Integer) param.getOrDefault("width", this.width);
-        int height = (Integer) param.getOrDefault("height", this.height);
+        int width1 = (Integer) param.getOrDefault("width", this.width);
+        int height1 = (Integer) param.getOrDefault("height", this.height);
 
         TETile floorTile = (TETile) param.get("floor_tile");
         TETile wallTile1 = (TETile) param.get("wall_tile1");
@@ -76,12 +76,12 @@ public class DungeonGenerator implements Generator {
         double currentDensity;
         do {
             entities.clear();
-            List<Point> nodes = Util.populateNodesRandom(random, 3, 3, width - 3, height - 3,
-                (int) (nodeDensity * width * height), nodeSpacing);
+            List<Point> nodes = Util.populateNodesRandom(random, 3, 3, width1 - 3, height1 - 3,
+                (int) (nodeDensity * width1 * height1), nodeSpacing);
             List<Rectangle> rectangles =
-                Util.getRandomRectanglesAround(random, nodes, minSize, maxSize, 1, 1, width - 1,
-                    height - 1);
-            grid = Util.createEmptyWorld(width, height);
+                Util.getRandomRectanglesAround(random, nodes, minSize, maxSize, 1, 1, width1 - 1,
+                    height1 - 1);
+            grid = Util.createEmptyWorld(width1, height1);
             TileRegion region = new TileRegion(grid);
             for (Rectangle r : rectangles) {
                 region.fillRect(r, floorTile);
@@ -105,12 +105,16 @@ public class DungeonGenerator implements Generator {
 
 
             for (Point p : nodes) {
-                if (RandomUtils.chance(random, .90f)) {continue;}
+                if (RandomUtils.chance(random, .90f)) {
+                    continue;
+                }
                 region.setTile(p.getX(), p.getY(), Tileset.PORTAL);
             }
 
             for (Point p : nodes) {
-                if (RandomUtils.chance(random, .76f)) {continue;}
+                if (RandomUtils.chance(random, .76f)) {
+                    continue;
+                }
                 if (region.getTile(p.getX(), p.getY()).getType() == FLOOR) {
                     entities.add(new Torch(new Point(p)));
                 }

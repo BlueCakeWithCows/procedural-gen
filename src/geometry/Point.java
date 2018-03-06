@@ -30,20 +30,22 @@ public class Point extends IPoint {
         };
     }
 
-    public Point setLocation(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Point setLocation(int x1, int y1) {
+        this.x = x1;
+        this.y = y1;
         return this;
     }
 
-    public void add(int x, int y) {
-        this.x += x;
-        this.y += y;
+    public void add(int x1, int y1) {
+        this.x += x1;
+        this.y += y1;
     }
 
-    public void add(int[] point) { add(point[0], point[1]); }
+    public void add(int[] point) {
+        add(point[0], point[1]);
+    }
 
-    public void add(IPoint IPoint) { add(IPoint.getX(), IPoint.getY()); }
+    public void add(IPoint iPoint) { add(iPoint.getX(), iPoint.getY()); }
 
     public int[] toInt() {
         return new int[]{x, y};

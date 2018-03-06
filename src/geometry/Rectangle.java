@@ -60,22 +60,36 @@ public class Rectangle {
     }
 
     public void bound(int minX, int minY, int maxX, int maxY) {
-        if (x1 < minX) { x1 = minX; }
-        if (y1 < minY) { y1 = minY; }
-        if (getX2() >= maxX) { x1 = maxX - width; }
-        if (getY2() >= maxY) { y1 = maxY - height; }
-
-
+        if (x1 < minX) {
+            x1 = minX;
+        }
+        if (y1 < minY) {
+            y1 = minY;
+        }
+        if (getX2() >= maxX) {
+            x1 = maxX - width;
+        }
+        if (getY2() >= maxY) {
+            y1 = maxY - height;
+        }
     }
 
     public void boundCenter(Point position, int minX, int minY, int maxX, int maxY) {
         int newX = position.getX() - width / 2;
         int newY = position.getY() - height / 2;
 
-        if (newX < minX) {newX = minX; }
-        if (newY < minY) { newY = minY; }
-        if (newX + width >= maxX) { newX = maxX - width; }
-        if (newY + height >= maxY) { newY = maxY - height; }
+        if (newX < minX) {
+            newX = minX;
+        }
+        if (newY < minY) {
+            newY = minY;
+        }
+        if (newX + width >= maxX) {
+            newX = maxX - width;
+        }
+        if (newY + height >= maxY) {
+            newY = maxY - height;
+        }
         this.y1 = newY;
         this.x1 = newX;
 

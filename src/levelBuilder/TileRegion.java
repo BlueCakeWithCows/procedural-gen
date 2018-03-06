@@ -132,37 +132,37 @@ public class TileRegion {
         return getTile(adj.getX(), adj.getY());
     }
 
-    public List<TETile> getAdjacentNodes(int x, int y) {
+    public List<TETile> getAdjacentNodes(int x1, int y1) {
         List<TETile> lst = new ArrayList<>();
-        if (getTile(x + 1, y) != null) {
-            lst.add(getTile(x + 1, y));
+        if (getTile(x1 + 1, y1) != null) {
+            lst.add(getTile(x1 + 1, y1));
         }
-        if (getTile(x - 1, y) != null) {
-            lst.add(getTile(x - 1, y));
+        if (getTile(x1 - 1, y1) != null) {
+            lst.add(getTile(x1 - 1, y1));
         }
-        if (getTile(x, y + 1) != null) {
-            lst.add(getTile(x, y + 1));
+        if (getTile(x1, y1 + 1) != null) {
+            lst.add(getTile(x1, y1 + 1));
         }
-        if (getTile(x, y - 1) != null) {
-            lst.add(getTile(x, y - 1));
+        if (getTile(x1, y1 - 1) != null) {
+            lst.add(getTile(x1, y1 - 1));
         }
         return lst;
     }
 
-    public List<TETile> getEightAdjacent(int x, int y) {
+    public List<TETile> getEightAdjacent(int x1, int y1) {
         List<TETile> lst = new ArrayList<>();
-        lst.addAll(getAdjacentNodes(x, y));
-        if (getTile(x + 1, y + 1) != null) {
-            lst.add(getTile(x + 1, y + 1));
+        lst.addAll(getAdjacentNodes(x1, y1));
+        if (getTile(x1 + 1, y1 + 1) != null) {
+            lst.add(getTile(x1 + 1, y1 + 1));
         }
-        if (getTile(x - 1, y - 1) != null) {
-            lst.add(getTile(x - 1, y - 1));
+        if (getTile(x1 - 1, y1 - 1) != null) {
+            lst.add(getTile(x1 - 1, y1 - 1));
         }
-        if (getTile(x - 1, y + 1) != null) {
-            lst.add(getTile(x - 1, y + 1));
+        if (getTile(x1 - 1, y1 + 1) != null) {
+            lst.add(getTile(x1 - 1, y1 + 1));
         }
-        if (getTile(x + 1, y - 1) != null) {
-            lst.add(getTile(x + 1, y - 1));
+        if (getTile(x1 + 1, y1 - 1) != null) {
+            lst.add(getTile(x1 + 1, y1 - 1));
         }
         return lst;
     }

@@ -33,19 +33,19 @@ public class RandomSeedMenu implements GameState {
     }
 
     @Override
-    public void update(Game game, double dt) {
+    public void update(Game gameInstance, double dt) {
 
     }
 
     @Override
-    public void close(Game game) {
-        game.removeInputHandler(this);
+    public void close(Game gameInstance) {
+        gameInstance.removeInputHandler(this);
     }
 
     @Override
-    public void show(Game game) {
+    public void show(Game gameInstance) {
         seed = new StringBuilder();
-        game.registerInputHandler(this);
+        gameInstance.registerInputHandler(this);
     }
 
     @Override

@@ -75,17 +75,17 @@ public class Player extends Entity implements LightSource {
     }
 
     private void updateVision(World world) {
-        Set<IPoint> LOS = this.getLOS(world);
-        lastSeen.removeAll(LOS);
+        Set<IPoint> los = this.getLOS(world);
+        lastSeen.removeAll(los);
         for (IPoint p : lastSeen) {
             world.setVision(p.getX(), p.getY(), false);
         }
-        for (IPoint p : LOS) {
+        for (IPoint p : los) {
             if (world.getLightLevel(p.getX(), p.getY()) > 0) {
                 world.setVision(p.getX(), p.getY(), true);
             }
         }
-        this.lastSeen = LOS;
+        this.lastSeen = los;
     }
 
     @Override

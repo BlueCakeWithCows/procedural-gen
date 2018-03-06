@@ -83,7 +83,9 @@ public class Util {
             int x = pos.getX() - width / 2;
             int y = pos.getY() - height / 2;
             Rectangle rect = new Rectangle(x, y, width, height);
-            if (x < x1 || y < y1 || x + width >= x2 || y + height >= y2) { continue; }
+            if (x < x1 || y < y1 || x + width >= x2 || y + height >= y2) {
+                continue;
+            }
             rects.add(rect);
         }
         return rects;
@@ -213,8 +215,8 @@ public class Util {
     }
 
     public static void shiftEntities(ArrayList<Entity> entities, int x, int y) {
-        for(Entity e: entities){
-            e.move(x,y);
+        for (Entity e: entities) {
+            e.move(x, y);
         }
     }
 }

@@ -17,23 +17,27 @@ public class ImmutablePoint extends IPoint {
     }
 
     public static ImmutablePoint valueOf(int x, int y) {
-        if (x >= PointCache.low && x <= PointCache.high && y >= PointCache.low
-                && y <= PointCache.high) {
-            return PointCache.cache[y * PointCache.size + x];
+        if (x >= PointCache.LOW && x <= PointCache.HIGH && y >= PointCache.LOW
+                && y <= PointCache.HIGH) {
+            return PointCache.CACHE[y * PointCache.SIZE + x];
         }
         return new ImmutablePoint(x, y);
     }
 
-    public ImmutablePoint add(int x, int y) {
+    public ImmutablePoint add(int x1, int y1) {
         return null;
     }
 
-    public void add(int[] point) { add(point[0], point[1]); }
+    public void add(int[] point) {
+        add(point[0], point[1]);
+    }
 
-    public void add(ImmutablePoint point) { add(point.getX(), point.getY()); }
+    public void add(ImmutablePoint point) {
+        add(point.getX(), point.getY());
+    }
 
-    public int distanceSq(int x, int y) {
-        return ImmutablePoint.distanceSq(this.x, this.y, x, y);
+    public int distanceSq(int x1, int y1) {
+        return ImmutablePoint.distanceSq(this.x, this.y, x1, y1);
     }
 
     public int getX() {
@@ -46,7 +50,7 @@ public class ImmutablePoint extends IPoint {
 
     @Override
     public int hashCode() {
-        return y * PointCache.size + x;
+        return y * PointCache.SIZE + x;
     }
 
     @Override
@@ -66,25 +70,25 @@ public class ImmutablePoint extends IPoint {
     }
 
     /**
-     * The cache is initialized on first usage.
+     * The CACHE is initialized on first usage.
      * Currently set to not be used :)
      */
 
     private static class PointCache {
-        static final int low = 0;
-        static final int high = -1;
-        static final int size = high - low + 1;
-        static final ImmutablePoint cache[];
+        static final int LOW = 0;
+        static final int HIGH = -1;
+        static final int SIZE = HIGH - LOW + 1;
+        static final ImmutablePoint CACHE[];
 
         static {
-            // high value may be configured by property
-            cache = new ImmutablePoint[size * size];
-            for (int i = 0; i < cache.length; i++) {
-                cache[i] = new ImmutablePoint(i % size, i / size);
+            // HIGH value may be configured by property
+            CACHE = new ImmutablePoint[SIZE * SIZE];
+            for (int i = 0; i < CACHE.length; i++) {
+                CACHE[i] = new ImmutablePoint(i % SIZE, i / SIZE);
             }
         }
 
-        private PointCache() {}
+        private PointCache() { }
     }
 
 }

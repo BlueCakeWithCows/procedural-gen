@@ -49,8 +49,8 @@ public class DiagonalRoom implements Generator {
             grid = Util.createEmptyWorld(width, height);
             region = new TileRegion(grid);
 
-            for (int x = 1; x < width; x++) {
-                for (int y = 1; y < height; y++) {
+            for (int x = 1; x <= width; x++) {
+                for (int y = 1; y <= height; y++) {
                     {
                         if (x % 3 == 0 && y % 3 == 0) {
                             region.setTile(x, y, wallTile1);
@@ -70,7 +70,7 @@ public class DiagonalRoom implements Generator {
             }
             Util.generateWalls(region, wallTile1, wallTile2);
             region.setTile((int) (width * .9), (int) (height * .9), Tileset.PORTAL);
-            player.setPositionRef(new Point(width / 2, height / 2));
+            player.setPositionRef(new Point(width / 2 - 1, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);
             Util.shiftRegion(region, delta.getX(), delta.getY());

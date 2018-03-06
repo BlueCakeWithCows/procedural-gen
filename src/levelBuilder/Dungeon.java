@@ -26,7 +26,7 @@ public class Dungeon {
         return set.generate(Util.cantorPair(seed, depth), depth, player);
     }
 
-    private int getDepth() {
+    public int getDepth() {
         return depth;
     }
 }

@@ -18,16 +18,17 @@ public class Game {
     public static final boolean RENDER_MAP = false;
     public static double SCALE = 1d;
 
-    public static final int TOTAL_WIDTH = 25;
-    public static final int TOTAL_HEIGHT = 30;
-    public static final int WIDTH = 25;
-    public static final int HEIGHT = 25;
+    public static final int TOTAL_WIDTH = 70;
+    public static final int TOTAL_HEIGHT = 40;
+    public static final int WIDTH = 70;
+    public static final int HEIGHT = 35;
     private static final double MAX_FPS = 60;
     private List<InputHandler> handlerList;
     private Deque<Character> inputDeque;
     private GameState gameState;
     private volatile boolean gameOver;
     private Input input;
+    private boolean wonGameStatus;
     //This is the main game instance // state managers thingy
     //Core.Game currently has 3 windows // modes
 
@@ -109,6 +110,14 @@ public class Game {
 
     public void setGameOver(boolean bool) {
         this.gameOver = bool;
+    }
+
+    public void setWonGameStatus(boolean bool) {
+        this.wonGameStatus = bool;
+    }
+
+    public boolean getWonGameStatus() {
+        return wonGameStatus;
     }
 
     private class RenderThread extends Thread {

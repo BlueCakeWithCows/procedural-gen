@@ -35,16 +35,18 @@ public class GeneratorSet {
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
 
+                case 4:
+                    return diagonal.generate(l, player,
+                            Map.ofEntries(entry("width", 100), entry("height", 100),
+                                    entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
+                                    entry("wall_tile2", Tileset.WALL2)));
+
                 case 5:
                     return quantumWalk.generate(l, player,
                         Map.ofEntries(entry("width", 100), entry("height", 100),
                             entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
                             entry("wall_tile2", Tileset.WALL2)));
-                case 4:
-                    return diagonal.generate(l, player,
-                        Map.ofEntries(entry("width", 100), entry("height", 100),
-                            entry("floor_tile", Tileset.FLOOR), entry("wall_tile1", Tileset.WALL),
-                            entry("wall_tile2", Tileset.WALL2)));
+
 
                 default:
                     return dungeonGenerator1.generate(l, player,
@@ -64,9 +66,6 @@ public class GeneratorSet {
             new int[]{100, 100}, 100, 100);
     private static final Generator caveGenerator1 =
         new CavernGenerator("Cave Generator", 100, 100, .01, 1, 3);
-
-    private static final Generator mazeGenerator1 =
-        new MazeGenerator("Maze Generator", 100, 100);
 
     private static final Generator quantumWalk = new QuantumDrunkard("Quantum Generator", 100, 100);
 

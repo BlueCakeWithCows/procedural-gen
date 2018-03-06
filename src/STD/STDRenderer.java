@@ -102,8 +102,10 @@ public class STDRenderer implements Renderer {
             commands.stream().collect(groupingBy(x -> x.getClass()));
 
 
-        List<DrawTextureCommand> textureCommands = (List<DrawTextureCommand>)
-                (List<?>) collections.getOrDefault(DrawTextureCommand.class, new ArrayList<>());
+        List<DrawTextureCommand> textureCommands = (List<DrawTextureCommand>) (List<?>) collections
+                                                                                            .getOrDefault(
+                                                                                                DrawTextureCommand.class,
+                                                                                                new ArrayList<>());
         Collections.sort(textureCommands, sorter);
         StdDraw.setFont(fontMap.get(CHAR));
         for (DrawTextureCommand cmd : textureCommands) {

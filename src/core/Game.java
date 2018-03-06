@@ -16,7 +16,7 @@ import java.util.List;
 public class Game {
 
     public static final boolean RENDER_MAP = false;
-    private static double SCALE = 1d;
+    public static double SCALE = 1d;
 
     public static final int TOTAL_WIDTH = 70;
     public static final int TOTAL_HEIGHT = 40;
@@ -68,9 +68,7 @@ public class Game {
     }
 
     public void setGameState(GameState state) {
-        if (gameState != null) {
-            this.gameState.close(this);
-        }
+        if (gameState != null) { this.gameState.close(this); }
         this.gameState = state;
         this.gameState.show(this);
     }
@@ -81,6 +79,8 @@ public class Game {
         }
     }
 
+    ;
+
     private void doNextInput() {
         while (!inputDeque.isEmpty()) {
             doInput(inputDeque.poll());
@@ -89,10 +89,8 @@ public class Game {
     }
 
     private void doInput(char c) {
-        for (InputHandler input1 : handlerList) {
-            if (input1.doInput(c)) {
-                break;
-            }
+        for (InputHandler input : handlerList) {
+            if (input.doInput(c)) { break; }
         }
     }
 
@@ -125,7 +123,7 @@ public class Game {
     private class RenderThread extends Thread {
         Renderer renderer;
 
-        RenderThread(Renderer renderer) {
+        public RenderThread(Renderer renderer) {
             this.renderer = renderer;
         }
 
@@ -136,20 +134,16 @@ public class Game {
             long currentTime = System.currentTimeMillis();
             long dt = 0;
             long msPerFrame = (long) (1000.0 * 1.0 / MAX_FPS);
-            View view;
-            view = new View(WIDTH, HEIGHT);
+            View view = new View(WIDTH, HEIGHT);
 
-            while (!gameOver) {
+            while (true && !gameOver) {
                 //long start = System.nanoTime();
                 currentTime = System.currentTimeMillis();
                 dt = currentTime - lastTime;
-                if (dt < msPerFrame) {
-                    wait((int) (msPerFrame - dt));
-                }
-                if (gameState.graphicsReady()) {
-                    renderer.render(gameState.getDrawBatch(view));
-                }
-                lastTime = currentTime;
+//                if (dt < msPerFrame) {
+//                    wait((int) (msPerFrame - dt));
+//                }
+                if (gameState.graphicsReady()) { renderer.render(gameState.getDrawBatch(view)); }
                 //System.out.println(1d / ((double) (System.nanoTime() - start) / 1000000000.0));
 
             }

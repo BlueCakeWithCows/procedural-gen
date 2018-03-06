@@ -1,5 +1,5 @@
 package levelBuilder;
 
 public interface LightSource {
-    int getLightValue();
+    public int getLightValue();
 }

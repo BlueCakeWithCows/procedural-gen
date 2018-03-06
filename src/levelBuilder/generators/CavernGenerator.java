@@ -48,12 +48,12 @@ public class CavernGenerator implements Generator {
         TETile[][] grid;
         TileRegion region;
         Random random = new Random(seed);
-        int width1 = (Integer) param.getOrDefault("width", this.width);
-        int height1 = (Integer) param.getOrDefault("height", this.height);
+        int width = (Integer) param.getOrDefault("width", this.width);
+        int height = (Integer) param.getOrDefault("height", this.height);
         TETile floorTile = (TETile) param.get("floor_tile");
         TETile wallTile1 = (TETile) param.get("wall_tile1");
         TETile wallTile2 = (TETile) param.get("wall_tile2");
-        grid = Util.createEmptyWorld(width1, height1);
+        grid = Util.createEmptyWorld(width, height);
         region = new TileRegion(grid);
 
         ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -62,13 +62,13 @@ public class CavernGenerator implements Generator {
 
         do {
             entities.clear();
-            grid = Util.createEmptyWorld(width1, height1);
+            grid = Util.createEmptyWorld(width, height);
             region = new TileRegion(grid);
             initialFill(region.getShrunkRegion(1), random, .45d, floorTile);
             for (int i = 0; i < iterations; i++) {
                 caveSmooth(region);
             }
-            Util.prune(Tileset.FLOOR, new Point(width1 / 2, height1 / 2), region);
+            Util.prune(Tileset.FLOOR, new Point(width / 2, height / 2), region);
 
             List<Point> torchPoints =
                 Util.populateNodesRandom(random, 1, 1, region.getWidth(), region.getHeight(),
@@ -101,9 +101,7 @@ public class CavernGenerator implements Generator {
     private void initialFill(TileRegion region, Random random, double chance, TETile tile) {
         for (int col = 0; col < region.getWidth(); col++) {
             for (int row = 0; row < region.getHeight(); row++) {
-                if (RandomUtils.chance(random, chance)) {
-                    region.setTile(col, row, tile);
-                }
+                if (RandomUtils.chance(random, chance)) { region.setTile(col, row, tile); }
             }
         }
     }

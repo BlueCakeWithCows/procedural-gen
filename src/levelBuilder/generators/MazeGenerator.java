@@ -39,8 +39,8 @@ public class MazeGenerator implements Generator {
         TETile[][] grid;
         TileRegion region;
         Random random = new Random(seed);
-        int width1 = (Integer) param.getOrDefault("width", this.width);
-        int height1 = (Integer) param.getOrDefault("height", this.height);
+        int width = (Integer) param.getOrDefault("width", this.width);
+        int height = (Integer) param.getOrDefault("height", this.height);
         TETile floorTile = (TETile) param.get("floor_tile");
         TETile wallTile1 = (TETile) param.get("wall_tile1");
         TETile wallTile2 = (TETile) param.get("wall_tile2");
@@ -49,8 +49,17 @@ public class MazeGenerator implements Generator {
         double currentDensity;
         do {
             entities.clear();
-            grid = Util.createEmptyWorld(width1, height1);
+            grid = Util.createEmptyWorld(width, height);
             region = new TileRegion(grid);
+
+            //region.setTile()
+            //Util.generateWalls()
+            //Util.prune()
+            //Util.populateRandomNodes()
+            //Util.isNear
+            //drawHall
+            //genRandomNearNode
+            //Util.getAdjacentPositions()
 
 //            for (int x = 0; x < width; x++) {
 //                for (int y = 0; y < height; y++) {
@@ -82,25 +91,25 @@ public class MazeGenerator implements Generator {
 //                }
 //            }
 
-            for (int x = 0; x < width1; x++) {
-                for (int y = 0; y < height1; y++) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
                     region.setTile(x, y, floorTile);
                 }
             }
 
-            for (int x = 0; x < width1; x++) {
+            for (int x = 0; x < width; x++) {
                 region.setTile(x, 0, wallTile1);
-                region.setTile(x, height1, wallTile1);
+                region.setTile(x, height, wallTile1);
             }
 
-            for (int y = 0; y < height1; y++) {
+            for (int y = 0; y < height; y++) {
                 region.setTile(0, y, wallTile1);
-                region.setTile(width1, y, wallTile1);
+                region.setTile(width, y, wallTile1);
             }
 
-            for (int y = 0; y < height1; y++) {
+            for (int y = 0; y < height; y++) {
                 if (y % 6 == 3) {
-                    for (int x = 0; x < width1 - 3; x++) {
+                    for (int x = 0; x < width - 3; x++) {
 //                        if (x % 40 == 0) {
 //                            region.setTile(x, y, floorTile);
 //                        }
@@ -108,8 +117,9 @@ public class MazeGenerator implements Generator {
                             region.setTile(x, y, wallTile1);
                         //}
                     }
-                } else if (y % 6 == 0) {
-                    for (int x = 3; x < width1; x++) {
+                }
+                else if (y % 6 == 0) {
+                    for (int x = 3; x < width; x++) {
 //                        if (y % 18 == 0 && x % 20 == 0) {
 //                            region.setTile(x, y, floorTile);
 //                        }
@@ -117,13 +127,13 @@ public class MazeGenerator implements Generator {
 //                            region.setTile(x, y, floorTile);
 //                        }
 //                        else {
-                        region.setTile(x, y, wallTile1);
+                            region.setTile(x, y, wallTile1);
                         //}
                     }
                 }
             }
             Util.generateWalls(region, wallTile1, wallTile2);
-            player.setPositionRef(new Point(width1 / 2, height1 / 2));
+            player.setPositionRef(new Point(width / 2, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);
             Util.shiftRegion(region, delta.getX(), delta.getY());

@@ -1,10 +1,6 @@
 package Core;
 
-import renderer.DrawBatchCommand;
-import renderer.DrawCommand;
-import renderer.DrawTextCommand;
-import renderer.Fonts;
-import renderer.View;
+import renderer.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,19 +41,20 @@ public class EndWindow implements GameState {
     }
 
     public DrawBatchCommand getDrawBatch(View view) {
-        double hW = view.getWidth() / 2;
-        double hH = view.getHeight() / 2;
-        List<DrawCommand> commands = new ArrayList<>(4);
-        Fonts font = Fonts.MONACO;
-        if (!wonGame) {
-            commands.add(new DrawTextCommand(font, "Game Over", hW, view.getHeight() / 9 * 7));
-            commands.add(new DrawTextCommand(font, "You ran into too many walls!", hW, hH / 9 * 6));
-            commands.add(new DrawTextCommand(font, "Press N to start a new game.", hW, hH / 9 * 4));
-        } else {
-            commands.add(new DrawTextCommand(font, "Congratulations", hW, view.getHeight() / 9 * 7));
-            commands.add(new DrawTextCommand(font, "You successfully exited the dark rooms!", hW, hH / 9 * 6));
-            commands.add(new DrawTextCommand(font, "Press N to start a new game.", hW, hH / 9 * 4));
-        }
+            double hW = view.getWidth() / 2;
+            double hH = view.getHeight() / 2;
+            List<DrawCommand> commands = new ArrayList<>(4);
+            Fonts font = Fonts.MONACO;
+            if (!wonGame) {
+                commands.add(new DrawTextCommand(font, "Game Over", hW, view.getHeight() / 9 * 7));
+                commands.add(new DrawTextCommand(font, "You ran into too many walls!", hW, hH / 9 * 6));
+                commands.add(new DrawTextCommand(font, "Press N to start a new game.", hW, hH / 9 * 4));
+            }
+            else {
+                commands.add(new DrawTextCommand(font, "Congratulations", hW, view.getHeight() / 9 * 7));
+                commands.add(new DrawTextCommand(font, "You successfully exited the dark rooms!", hW, hH / 9 * 6));
+                commands.add(new DrawTextCommand(font, "Press N to start a new game.", hW, hH / 9 * 4));
+            }
         return new DrawBatchCommand(commands);
 
     }

@@ -46,22 +46,22 @@ public class GameScreen implements GameState {
     }
 
     @Override
-    public void update(Game gameInstance, double dt) {
+    public void update(Game game, double dt) {
         world.update(dt);
     }
 
     @Override
-    public void close(Game gameInstance) {
-        gameInstance.removeInputHandler(this);
+    public void close(Game game) {
+        game.removeInputHandler(this);
     }
 
     @Override
-    public void show(Game gameInstance) {
-        gameInstance.registerInputHandler(this);
-        genWorld(gameInstance);
+    public void show(Game game) {
+        game.registerInputHandler(this);
+        genWorld(game);
     }
 
-    public void genWorld(Game gameInstance) {
+    public void genWorld(Game game) {
         ready = false;
         world = dungeon.getFloor(player);
         camera = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
@@ -81,9 +81,9 @@ public class GameScreen implements GameState {
         camera.boundCenter(player.getPosition(), 0, 0, world.getRegion().getWidth(),
             world.getRegion().getHeight());
         if (c == 'p' && world.getTile(player.getPosition()).getType() == TileType.PORTAL) {
-            if (dungeon.getDepth() > 5) {
+            if(dungeon.getDepth() > 5) {
                 game.setGameState(new EndWindow(game, true));
-            } else {
+            }else {
                 genWorld(game);
             }
         }
@@ -96,24 +96,22 @@ public class GameScreen implements GameState {
         for (int col = camera.getX(); col < camera.getX2(); col++) {
             for (int row = camera.getY(); row < camera.getY2() - 1; row++) {
                 TETile tile = world.getRegion().getTile(col, row);
-                DrawTextureCommand textureCommand =
+                DrawTextureCommand cmd =
                     new DrawTextureCommand(tile.getTexture(), col - camera.getX(),
                         row - camera.getY(), 1, 1, 255, world.getVisibleLightLevel(col, row), 1);
-                commands.add(textureCommand);
+                commands.add(cmd);
             }
         }
 
 
         for (Entity e : world.getEntities()) {
             TETile tile = e.getTile();
-            if (!world.getIsVisible(e.getX(), e.getY())) {
-                continue;
-            }
-            DrawTextureCommand textureCommand =
+            if (!world.getIsVisible(e.getX(), e.getY())) {continue;}
+            DrawTextureCommand cmd =
                 new DrawTextureCommand(tile.getTexture(), e.getX() - camera.getX(),
                     e.getY() - camera.getY(), 1, 1, 255,
                     world.getVisibleLightLevel(e.getX(), e.getY()), 10);
-            commands.add(textureCommand);
+            commands.add(cmd);
         }
 
         Point2D point = this.game.getInput().pollMouse();

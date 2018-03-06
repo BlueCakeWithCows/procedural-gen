@@ -42,8 +42,8 @@ public class QuantumDrunkard implements Generator {
         TETile[][] grid;
         TileRegion region;
         Random random = new Random(seed);
-        int width1 = (Integer) param.getOrDefault("width", this.width);
-        int height1 = (Integer) param.getOrDefault("height", this.height);
+        int width = (Integer) param.getOrDefault("width", this.width);
+        int height = (Integer) param.getOrDefault("height", this.height);
         TETile floorTile = (TETile) param.get("floor_tile");
         TETile wallTile1 = (TETile) param.get("wall_tile1");
         TETile wallTile2 = (TETile) param.get("wall_tile2");
@@ -52,7 +52,7 @@ public class QuantumDrunkard implements Generator {
         double currentDensity;
         do {
             entities.clear();
-            grid = Util.createEmptyWorld(width1, height1);
+            grid = Util.createEmptyWorld(width, height);
             region = new TileRegion(grid);
 
             //region.setTile()
@@ -77,7 +77,7 @@ public class QuantumDrunkard implements Generator {
                 return a;
             };
             char[][] a = null;
-            int iMax = Math.min(width1, height1) / 2 - 1;
+            int iMax = Math.min(width, height) / 2 - 1;
             for (int i = 0; i <= iMax; i++) {
                 a = f.apply(i);
             }
@@ -91,8 +91,8 @@ public class QuantumDrunkard implements Generator {
                 }
             }
             Util.generateWalls(region, wallTile1, wallTile2);
-            region.setTile((int) (width1 * .9), (int) (height1 * .9), Tileset.PORTAL);
-            player.setPositionRef(new Point(width1 / 2, height1 / 2));
+            region.setTile((int) (width * .9), (int) (height * .9), Tileset.PORTAL);
+            player.setPositionRef(new Point(width / 2, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);
             Util.shiftRegion(region, delta.getX(), delta.getY());

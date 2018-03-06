@@ -14,8 +14,8 @@ public class StartMenu implements GameState, InputHandler {
     private Game game;
     private DrawBatchCommand cachedDrawBatch;
 
-    public StartMenu(Game gameInstance) {
-        this.game = gameInstance;
+    public StartMenu(Game game) {
+        this.game = game;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class StartMenu implements GameState, InputHandler {
     }
 
     @Override
-    public void update(Game gameInstance, double dt) {
+    public void update(Game game, double dt) {
 
     }
 
@@ -64,19 +64,15 @@ public class StartMenu implements GameState, InputHandler {
         switch (Character.toLowerCase(c)) {
             case 'l':
                 String save = SaveGame.loadData();
-                if (save == null) {
-                    System.exit(0);
-                }
+                if (save == null) { System.exit(0); }
+
                 game.addToQueue(save);
                 break;
-
             case 'n':
                 game.setGameState(new RandomSeedMenu(game));
                 break;
-
             default:
                 return false;
-
         }
         return true;
     }

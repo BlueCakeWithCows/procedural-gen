@@ -6,14 +6,17 @@ import levelBuilder.Entity;
 import levelBuilder.Generator;
 import levelBuilder.Player;
 import levelBuilder.TileRegion;
+import levelBuilder.Torch;
 import levelBuilder.World;
 import tileEngine.TETile;
 import tileEngine.Tileset;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static tileEngine.TileType.FLOOR;
 import static tileEngine.TileType.NOTHING;
 
 /**
@@ -90,8 +93,12 @@ public class QuantumDrunkard implements Generator {
                     }
                 }
             }
+
+            addPortal(random, region);
+            addTorch(random, region, entities);
+            addTorch(random, region, entities);
+
             Util.generateWalls(region, wallTile1, wallTile2);
-            region.setTile((int) (width * .9), (int) (height * .9), Tileset.PORTAL);
             player.setPositionRef(new Point(width / 2, height / 2));
             entities.add(player);
             Point delta = Util.getOffCenter(region);
@@ -101,5 +108,26 @@ public class QuantumDrunkard implements Generator {
         } while (false);
         World world = new World(grid, entities, player);
         return world;
+    }
+
+
+    public void addPortal(Random random, TileRegion region) {
+        Point portalPoint;
+        do {
+            portalPoint =
+                Util.populateNodesRandom(random, 1, 1, region.getWidth(), region.getHeight(), 1, 10)
+                    .get(0);
+        } while (region.getTile(portalPoint).getType() != FLOOR);
+        region.setTile(portalPoint.getX(), portalPoint.getY(), Tileset.PORTAL);
+    }
+
+    public void addTorch(Random random, TileRegion region, List<Entity> entityList) {
+        Point portalPoint;
+        do {
+            portalPoint =
+                Util.populateNodesRandom(random, 1, 1, region.getWidth(), region.getHeight(), 1, 10)
+                    .get(0);
+        } while (region.getTile(portalPoint).getType() != FLOOR);
+        entityList.add(new Torch(portalPoint));
     }
 }
